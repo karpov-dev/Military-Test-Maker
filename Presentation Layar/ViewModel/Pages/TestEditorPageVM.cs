@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using Data_Layer;
 using Presentation_Layar.Service;
+using Presentation_Layar.View.Windows;
 using Presentation_Layar.ViewModel.BaseNavigation;
 using Presentation_Layar.ViewModel.Components;
+using Presentation_Layar.ViewModel.Windows;
 using Service_Layar;
 
 namespace Presentation_Layar.ViewModel.Pages
@@ -88,7 +90,9 @@ namespace Presentation_Layar.ViewModel.Pages
         public RelayCommand ExportToPDF => _exportToPDF ?? ( _exportToPDF = new RelayCommand(obj =>
         {
             if ( SelectedTest == null ) return;
-            PDFCreator.CreatePDF("C:\\Users\\passa\\Desktop\\Military Project", SelectedTest);
+            PDFConverterSettings pdfWindow = new PDFConverterSettings();
+            pdfWindow.DataContext = new PDFConverterSettingsVM(SelectedTest);
+            pdfWindow.Show();
         }));
 
         private RelayCommand _cancel;

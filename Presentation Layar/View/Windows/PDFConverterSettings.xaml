@@ -1,0 +1,105 @@
+﻿<Window x:Class="Presentation_Layar.View.Windows.PDFConverterSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
+        xmlns:local="clr-namespace:Presentation_Layar.View.Windows"
+        mc:Ignorable="d"
+        Title="Конвертировать в PDF" Height="400" Width="450" WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Настройки PDF"
+                   Style="{StaticResource NormalText_Center}"/>
+        <StackPanel Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Шрифт оглавления"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <TextBlock Text="Крупный шрифт"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <TextBlock Text="Основной шрифт"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <TextBlock Text="Мелкий шрифт"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding TitleFontSize}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="2"
+                         HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding BigFontSize}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="2"
+                         HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding MainFontSize}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="2"
+                         HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding SmallFontSize}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="2"
+                         HorizontalContentAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Межстрочный интервал"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <TextBlock Text="Межбуквенный интервал"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <TextBlock Text="Отступ ответов"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <TextBox Text="{Binding LineSpacing}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="1"
+                         HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding WordSpacing}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="1"
+                         HorizontalContentAlignment="Center"/>
+                    <TextBox Text="{Binding QuestionOffset}"
+                         Style="{StaticResource LittleTextBox}"
+                         MaxLength="2"
+                         HorizontalContentAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="Путь сохранения"
+                           Style="{StaticResource LittleText_Center}"
+                           Margin="6"/>
+            <TextBox Text="{Binding FilePath}"
+                         Style="{StaticResource LittleTextBox}"
+                         HorizontalContentAlignment="Center"/>
+            <TextBlock Text="Название файла"
+                           Style="{StaticResource LittleText_Center}"
+                           Margin="6"/>
+            <TextBox Text="{Binding FileName}"
+                         Style="{StaticResource LittleTextBox}"
+                         HorizontalContentAlignment="Center"/>
+            <cmp:ErrorMessage DataContext="{Binding Error}"/>
+            <cmp:InfoMessage DataContext="{Binding Info}"/>
+        </StackPanel>
+        <Button Content="Конвертировать"
+                Style="{StaticResource Button}"
+                Command="{Binding ConvertToPDF}"
+                Grid.Row="2"/>
+    </Grid>
+</Window>

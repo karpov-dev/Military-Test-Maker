@@ -124,12 +124,38 @@ namespace Presentation_Layar.Service
                 }
             }
         }
+
+        private static string _filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+        public static string FilePath
+        {
+            get => _filePath;
+            set
+            {
+                if( !string.IsNullOrWhiteSpace(value) )
+                {
+                    _filePath = value;
+                }
+            }
+        }
+
+        private static string _fileName = "TestForStudents";
+        public static string FileName
+        {
+            get => _fileName;
+            set
+            {
+                if ( !string.IsNullOrWhiteSpace(value) )
+                {
+                    _fileName = value;
+                }
+            }
+        }
         #endregion
 
         #region Methods
-        public static bool CreatePDF(string savePath, Test test)
+        public static bool CreatePDF(Test test)
         {
-            if ( test == null || string.IsNullOrWhiteSpace(savePath) ) return false;
+            if ( test == null) return false;
 
             #region Documet Page Graphics
             PdfDocument document = new PdfDocument();
@@ -161,7 +187,7 @@ namespace Presentation_Layar.Service
                 WriteString(page, test.Questions[i].Queston, MainFont, PdfBrushes.Black);
                 for ( int j = 0; j < test.Questions[i].Answers.Count; j++ )
                 {
-                    WriteString(page, j + ") " + test.Questions[i].Answers[j], MainFont, PdfBrushes.Black);
+                    WriteString(page, j + ") " + test.Questions[i].Answers[j], MainFont, PdfBrushes.Black, 10);
                 }
                 WriteString(page, "Ответ: ____", MainFont, PdfBrushes.Black);
                 WriteString(page, " ", MainFont, PdfBrushes.Black);
@@ -169,7 +195,7 @@ namespace Presentation_Layar.Service
 
             try
             {
-                document.Save(savePath + "\\Test.pdf");
+                document.Save(FilePath + "\\" + FileName + ".pdf");
                 document.Close(true);
             }
             catch
