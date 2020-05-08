@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Presentation_Layar.View.Pages.TestEditPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation_Layar.View.Pages"
+             xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Background="{StaticResource ApplicationBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Редактор Теста"
+                   Style="{StaticResource BigText_Center}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.6*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" 
+                        Margin="5">
+                <TextBlock Text="Название"
+                           Style="{StaticResource NormalText_Center}"/>
+                <cmp:InputText DataContext="{Binding Title}"/>
+                <TextBlock Text="Автор"
+                           Style="{StaticResource NormalText_Center}"/>
+                <cmp:InputText DataContext="{Binding Author}"/>
+                <TextBlock Text="Описание"
+                           Style="{StaticResource NormalText_Center}"/>
+                <cmp:InputText DataContext="{Binding Description}"/>
+                <Button Content="Добавить вопрос"
+                        Style="{StaticResource Button}"
+                        Command="{Binding AddQuestion}"/>
+                <Button Content="Редактировать вопрос"
+                        Style="{StaticResource Button}"
+                        Command="{Binding EditQuestion}"
+                        IsEnabled="{Binding ButtonsEnabled}"/>
+                <Button Content="Удалить вопрос"
+                        Style="{StaticResource RedButton}"
+                        Command="{Binding DeleteQuestion}"
+                        IsEnabled="{Binding ButtonsEnabled}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Назад"
+                            Style="{StaticResource Button}"
+                            Command="{Binding CancalCommand}"/>
+                    <Button Content="Сохранить"
+                            Style="{StaticResource Button}"
+                            Command="{Binding SaveTest}"
+                            Grid.Column="1"/>
+                </Grid>
+                <cmp:ErrorMessage DataContext="{Binding Error}"/>
+                <cmp:InfoMessage DataContext="{Binding Info}"/>
+            </StackPanel>
+            <ListView ItemsSource="{Binding Questions}"
+                      SelectedItem="{Binding SelectedQuestion}"
+                      Grid.Column="1"
+                      Margin="5">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Вопрос"
+                                        DisplayMemberBinding="{Binding Queston}"/>
+                        <GridViewColumn Header="Ответ"
+                                        DisplayMemberBinding="{Binding Answer}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</UserControl>

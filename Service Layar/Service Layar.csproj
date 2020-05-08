@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>Service_Layar</RootNamespace>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Business Layar\Business Layar\Business Layar.csproj" />
+    <ProjectReference Include="..\Data Access Layar\Data Access Layar.csproj" />
+  </ItemGroup>
+
+</Project>
