@@ -19,24 +19,38 @@
                 <ColumnDefinition Width="0.4*"/>
                 <ColumnDefinition Width="0.6*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <Button Content="Добавить тест"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Button Content="Добавить тест"
                         Style="{StaticResource Button}"
                         Command="{Binding AddTest}"/>
-                <Button Content="Редактировать тест"
+                    <Button Content="Редактировать тест"
                         Style="{StaticResource Button}"
                         Command="{Binding EditTest}"
                         IsEnabled="{Binding ButtonsEnabled}"/>
-                <Button Content="Удалить"
+                    <Button Content="Удалить"
                         Style="{StaticResource RedButton}"
                         Command="{Binding DeleteTest}"
                         IsEnabled="{Binding ButtonsEnabled}"/>
-                <Button Content="Назад"
+                    <Button Content="Назад"
                         Style="{StaticResource Button}"
                         Command="{Binding Cancel}"/>
-                <cmp:InfoMessage DataContext="{Binding Info}"/>
-                <cmp:ErrorMessage DataContext="{Binding Error}"/>
-            </StackPanel>
+                    <cmp:InfoMessage DataContext="{Binding Info}"/>
+                    <cmp:ErrorMessage DataContext="{Binding Error}"/>
+                </StackPanel>
+                <DockPanel Grid.Row="1">
+                    <Button Content="Экспорт в PDF"
+                            Style="{StaticResource Button}"
+                            Command="{Binding ExportToPDF}"
+                            IsEnabled="{Binding ButtonsEnabled}"
+                            DockPanel.Dock="Bottom"/>
+
+                </DockPanel>
+            </Grid>
             <ListView ItemsSource="{Binding Tests}"
                       SelectedItem="{Binding SelectedTest}"
                       Grid.Column="1"

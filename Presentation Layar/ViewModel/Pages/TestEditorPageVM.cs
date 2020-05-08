@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Business_Layar;
+using Data_Layer;
 using Presentation_Layar.Service;
 using Presentation_Layar.ViewModel.BaseNavigation;
 using Presentation_Layar.ViewModel.Components;
@@ -82,6 +82,13 @@ namespace Presentation_Layar.ViewModel.Pages
             if ( !removeResult ) Error.Show("Возникла ошибка при удалении теста");
             Info.Show("Тест успешно удалён");
             
+        }));
+
+        private RelayCommand _exportToPDF;
+        public RelayCommand ExportToPDF => _exportToPDF ?? ( _exportToPDF = new RelayCommand(obj =>
+        {
+            if ( SelectedTest == null ) return;
+            PDFCreator.CreatePDF("C:\\Users\\passa\\Desktop\\Military Project", SelectedTest);
         }));
 
         private RelayCommand _cancel;

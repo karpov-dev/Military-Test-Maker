@@ -12,7 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="18.1.0.48" />
+    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="18.1.0.48" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Business Layar\Business Layar\Business Layar.csproj" />
+    <ProjectReference Include="..\Data Layer\Data Layer.csproj" />
     <ProjectReference Include="..\Service Layar\Service Layar.csproj" />
   </ItemGroup>
 

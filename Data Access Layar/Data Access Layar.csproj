@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Business Layar\Business Layar\Business Layar.csproj" />
+    <ProjectReference Include="..\Data Layer\Data Layer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation Layar", "Prese
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Access Layar", "Data Access Layar\Data Access Layar.csproj", "{EBBDC1C2-698B-4E8D-AC27-B466384927C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business Layar", "Business Layar\Business Layar\Business Layar.csproj", "{D6E2B18A-D856-4DA9-8B3A-0497D399046F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Layer", "Data Layer\Data Layer.csproj", "{50469DD2-50ED-44AC-8FAD-0E50FD9C922A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{EBBDC1C2-698B-4E8D-AC27-B466384927C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBBDC1C2-698B-4E8D-AC27-B466384927C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBBDC1C2-698B-4E8D-AC27-B466384927C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6E2B18A-D856-4DA9-8B3A-0497D399046F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6E2B18A-D856-4DA9-8B3A-0497D399046F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6E2B18A-D856-4DA9-8B3A-0497D399046F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6E2B18A-D856-4DA9-8B3A-0497D399046F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50469DD2-50ED-44AC-8FAD-0E50FD9C922A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50469DD2-50ED-44AC-8FAD-0E50FD9C922A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50469DD2-50ED-44AC-8FAD-0E50FD9C922A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50469DD2-50ED-44AC-8FAD-0E50FD9C922A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
