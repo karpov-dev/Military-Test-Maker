@@ -32,6 +32,10 @@
             <pageView:QuestionEditor/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type page:GroupTestingPageResultVM}">
+            <pageView:GroupTestingPageResult/>
+        </DataTemplate>
+        
     </Window.Resources>
     
     <Grid Background="{StaticResource ApplicationBackground}">

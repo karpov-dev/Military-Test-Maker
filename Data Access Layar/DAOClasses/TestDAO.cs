@@ -25,15 +25,9 @@ namespace Data_Access_Layar.DAOClasses
         {
             List<Question> randomTests = new List<Question>();
             if ( test == null ) return randomTests;
-            if ( amountQuestions > test.Questions.Count ) return randomTests; 
+            if ( amountQuestions > test.Questions.Count ) return randomTests;
 
-            List<int> randomNumbers = new List<int>();
-            while( randomNumbers.Count != amountQuestions )
-            {
-                int randomNumber = CustomRandom.GetNumber(0, test.Questions.Count - 1);
-                if ( !IsRandomNumber(randomNumbers, randomNumber) ) continue;
-                randomNumbers.Add(randomNumber);
-            }
+            List<int> randomNumbers = GetListWithRandomNumbers(amountQuestions, 0, test.Questions.Count - 1);
             for(int i = 0; i < randomNumbers.Count; i++ )
             {
                 try
@@ -45,6 +39,17 @@ namespace Data_Access_Layar.DAOClasses
                     return new List<Question>();
                 }
             }
+
+            for(int i = 0; i < randomTests.Count; i++ )
+            {
+                List<int> inSwap = GetListWithRandomNumbers(4, 0, 3);
+                List<int> toSwap = GetListWithRandomNumbers(4, 0, 3);
+                for(int j = 0; j < inSwap.Count; j++ )
+                {
+                    SwapAnswers(randomTests[i], inSwap[j], toSwap[j]);
+                }
+            }
+
             return randomTests;
         }
         public bool Insert(Test test)
@@ -84,6 +89,23 @@ namespace Data_Access_Layar.DAOClasses
                 if ( num == number ) return false;
             }
             return true;
+        }
+        private List<int> GetListWithRandomNumbers(int listSize, int minValue, int maxValue)
+        {
+            List<int> randomNumbers = new List<int>();
+            while ( randomNumbers.Count != listSize )
+            {
+                int randomNumber = CustomRandom.GetNumber(minValue, maxValue);
+                if ( !IsRandomNumber(randomNumbers, randomNumber) ) continue;
+                randomNumbers.Add(randomNumber);
+            }
+            return randomNumbers;
+        }
+        private void SwapAnswers(Question question, int inSwap, int toSwap)
+        {
+            string tmpStr = question.Answers[inSwap];
+            question.Answers[inSwap] = question.Answers[toSwap];
+            question.Answers[toSwap] = tmpStr;
         }
         #endregion
     }

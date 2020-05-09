@@ -16,11 +16,15 @@ namespace Presentation_Layar.ViewModel.Pages
         #region Variables 
         private TestManager _manager;
         private DispatcherTimer _timer;
+        public Question _question;
         #endregion
 
         #region Properties
-        public Question Question { get; set; }
+
         public SessionStatistic Statistic { get; set; }
+
+        public string Question => _question.Queston;
+        public List<string> Answers => _question.Answers;
 
         private double _timerTime;
         public double TimerTime
@@ -33,10 +37,52 @@ namespace Presentation_Layar.ViewModel.Pages
             }
         }
 
-        public Visibility OneVisibility { get; set; }
-        public Visibility TwoVisibility { get; set; }
-        public Visibility ThreeVisibility { get; set; }
-        public Visibility FourVisibility { get; set; }
+        #region Visibility
+        private Visibility _oneVisibility;
+        public Visibility OneVisibility
+        {
+            get => _oneVisibility;
+            set
+            {
+                _oneVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _twoVisibility;
+        public Visibility TwoVisibility
+        {
+            get => _twoVisibility;
+            set
+            {
+                _twoVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _threeVisibility;
+        public Visibility ThreeVisibility
+        {
+            get => _threeVisibility;
+            set
+            {
+                _threeVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _fourVisibility;
+        public Visibility FourVisibility
+        {
+            get => _fourVisibility;
+            set
+            {
+                _fourVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Constructors
@@ -47,7 +93,7 @@ namespace Presentation_Layar.ViewModel.Pages
                 MessageBox.Show("Возникла ошибка при загрузке теста", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 Root.CurrentVM = Owner;
             }
-            Question = question;
+            _question = question;
             Statistic = statistic;
             _manager = manager;
             TimerTime = Settings.GroupTimeToNextQuestion;
@@ -87,15 +133,10 @@ namespace Presentation_Layar.ViewModel.Pages
         private void HideWrongAnswers()
         {
             //костыль всея руси
-            if ( Question.Answers[0] != Question.RightAnswer ) OneVisibility = Visibility.Hidden;
-            if ( Question.Answers[1] != Question.RightAnswer ) TwoVisibility = Visibility.Hidden;
-            if ( Question.Answers[2] != Question.RightAnswer ) ThreeVisibility = Visibility.Hidden;
-            if ( Question.Answers[3] != Question.RightAnswer ) FourVisibility = Visibility.Hidden;
-
-            OnPropertyChanged("OneVisibility");
-            OnPropertyChanged("TwoVisibility");
-            OnPropertyChanged("ThreeVisibility");
-            OnPropertyChanged("FourVisibility");
+            if ( _question.Answers[0] != _question.RightAnswer ) OneVisibility = Visibility.Collapsed;
+            if ( _question.Answers[1] != _question.RightAnswer ) TwoVisibility = Visibility.Collapsed;
+            if ( _question.Answers[2] != _question.RightAnswer ) ThreeVisibility = Visibility.Collapsed;
+            if ( _question.Answers[3] != _question.RightAnswer ) FourVisibility = Visibility.Collapsed;
         }
         #endregion
     }

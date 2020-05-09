@@ -33,8 +33,6 @@ namespace Presentation_Layar.Model
             _currentTestIndex = 0;
             _dataService = DataService.GetInstance();
             _statistic = new SessionStatistic();
-            _statistic.AmountQuestions = Settings.PersonalAmountQuestions;
-
             switch ( mode )
             {
                 case Settings.GROUP_MODE: GroupMode(); break;
@@ -46,7 +44,11 @@ namespace Presentation_Layar.Model
         #region Methods
         public void NextTest()
         {
-            if (_currentTestIndex >= _tests.Count) Root.CurrentVM = Owner;
+            if (_currentTestIndex >= _tests.Count )
+            {
+                Root.CurrentVM = new GroupTestingPageResultVM(Root, Owner);
+                return;
+            }
 
             _statistic.CurrentQuestion = _currentTestIndex + 1;
             Root.CurrentVM = _tests[_currentTestIndex];
@@ -55,10 +57,11 @@ namespace Presentation_Layar.Model
 
         private void GroupMode()
         {
+            _statistic.AmountQuestions = Settings.GroupAmountQuestions;
             _questions = _dataService.GetRandomQuestionsByTest(_test, Settings.GroupAmountQuestions);
-            foreach (Question question in _questions )
+            for(int i = 0; i < _questions.Count; i++ )
             {
-                _tests.Add(new GroupTestingPageVM(Root, Owner, question, _statistic, this));
+                _tests.Add(new GroupTestingPageVM(Root, Owner, _questions[i], _statistic, this));
             }
             NextTest();
         }
