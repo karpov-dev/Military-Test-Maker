@@ -26,16 +26,10 @@
         </StackPanel>
         <StackPanel Grid.Column="1"
                     Grid.Row="1">
-            <Button Content="Тестирование" 
-                    Style="{StaticResource Button}"
-                    Command="{Binding GoToTesting}"/>
-            <Button Content="Обучение" 
-                    Style="{StaticResource Button}"
-                    Command="{Binding GoToLearning}"/>
-            <Button Content="Редактор тестов" 
+            <Button Content="Проверка знаний" 
                     Style="{StaticResource Button}"
                     Command="{Binding GoToTestEditor}"/>
-            <Button Content="Редактор уроков" 
+            <Button Content="Обучение" 
                     Style="{StaticResource Button}"
                     Command="{Binding GoLessonsEditor}"/>
             <Button Content="Выход" 

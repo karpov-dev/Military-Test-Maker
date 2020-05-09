@@ -10,7 +10,8 @@ namespace Presentation_Layar.ViewModel.Pages
     class QuestionEditorVM : ViewModelBase
     {
         #region Variables
-        DataService _dataService = DataService.GetInstance(); 
+        private DataService _dataService = DataService.GetInstance();
+        private List<InputAnswerVM> _answers;
         #endregion
 
         #region Constructors
@@ -20,21 +21,27 @@ namespace Presentation_Layar.ViewModel.Pages
             Question = question;
             Test = test;
             Error = new ErrorMessageVM();
+            _answers = new List<InputAnswerVM>();
 
             QuestionInpit = new InputTextVM();
             QuestionInpit.Text = Question.Queston;
 
             OneAnswer = new InputAnswerVM(1);
             OneAnswer.Text = Question.Answers[0];
+            OneAnswer.IsCheceked = true;
+            _answers.Add(OneAnswer);
 
             TwoAnswer = new InputAnswerVM(2);
             TwoAnswer.Text = Question.Answers[1];
+            _answers.Add(TwoAnswer);
 
             ThreeAnswer = new InputAnswerVM(3);
             ThreeAnswer.Text = Question.Answers[2];
+            _answers.Add(ThreeAnswer);
 
             FourAnswer = new InputAnswerVM(4);
             FourAnswer.Text = Question.Answers[3];
+            _answers.Add(FourAnswer);
         }
         #endregion
 
@@ -82,22 +89,34 @@ namespace Presentation_Layar.ViewModel.Pages
         #region Methods
         private bool CanSave()
         {
-            bool questionCanSave = QuestionInpit.CanSave(),
-                 oneAnswerCanSave = OneAnswer.CanSave(),
-                 twoAnswerCanSave = TwoAnswer.CanSave(),
-                 threeAnswerCanSave = ThreeAnswer.CanSave(),
-                 fourCanSave = FourAnswer.CanSave();
-            if ( questionCanSave && oneAnswerCanSave && twoAnswerCanSave && threeAnswerCanSave && fourCanSave ) return true;
-            return false;
+            List<bool> canSaveList = new List<bool>();
+            canSaveList.Add(QuestionInpit.CanSave());
+            foreach(InputAnswerVM answerVM in _answers )
+            {
+                canSaveList.Add(answerVM.CanSave());
+            }
+            foreach(bool canSave in canSaveList )
+            {
+                if ( !canSave ) return false;
+            }
+            if ( string.IsNullOrWhiteSpace(GetRightAnswer())){
+                Error.Show("Выберите правильный ответ");
+                return false;
+            }
+            return true;
         }
         private void SaveQuestion()
         {
             Question.Queston = QuestionInpit.Text;
             Question.Answers = new List<string>();
-            Question.Answers.Add(OneAnswer.Text);
-            Question.Answers.Add(TwoAnswer.Text);
-            Question.Answers.Add(ThreeAnswer.Text);
-            Question.Answers.Add(FourAnswer.Text);
+            foreach(InputAnswerVM answerVM in _answers ) Question.Answers.Add(answerVM.Text);
+            Question.RightAnswer = GetRightAnswer();
+        }
+        private string GetRightAnswer()
+        {
+            foreach(InputAnswerVM answerVM in _answers )
+                if ( answerVM.IsCheceked ) return answerVM.Text;
+            return null;
         }
         #endregion
     }

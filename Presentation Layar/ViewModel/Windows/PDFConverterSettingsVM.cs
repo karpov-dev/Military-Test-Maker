@@ -102,7 +102,6 @@ namespace Presentation_Layar.ViewModel.Windows
         public RelayCommand ConvertToPDF => _convertIt ?? ( _convertIt = new RelayCommand(obj =>
         {
             HideNotifications();
-            Info.Show("Формирование файла");
             bool convertResult = PDFCreator.CreatePDF(Test);
             Info.Hide();
             if ( convertResult ) Info.Show("PDF файл успешно сформирован!");

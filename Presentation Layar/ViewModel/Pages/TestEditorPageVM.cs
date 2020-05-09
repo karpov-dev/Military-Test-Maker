@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 using Data_Layer;
+using Presentation_Layar.Model;
 using Presentation_Layar.Service;
 using Presentation_Layar.View.Windows;
 using Presentation_Layar.ViewModel.BaseNavigation;
@@ -20,6 +23,10 @@ namespace Presentation_Layar.ViewModel.Pages
         {
             Error = new ErrorMessageVM();
             Info = new InfoMessageVM();
+            TestModes = new List<string>();
+            TestModes.Add(Settings.GROUP_MODE);
+            TestModes.Add(Settings.PERSONAL_MODE);
+            SelectedTestMode = Settings.DEFAULT_SELECTED_MODE;
         }
         #endregion
 
@@ -35,6 +42,9 @@ namespace Presentation_Layar.ViewModel.Pages
                 return false;
             }
         }
+
+        public string SelectedTestMode { get; set; }
+        public List<string> TestModes { get; set; }
 
         private Test _selectedTest;
         public Test SelectedTest
@@ -93,6 +103,26 @@ namespace Presentation_Layar.ViewModel.Pages
             PDFConverterSettings pdfWindow = new PDFConverterSettings();
             pdfWindow.DataContext = new PDFConverterSettingsVM(SelectedTest);
             pdfWindow.Show();
+        }));
+
+        private RelayCommand _goToTesting;
+        public RelayCommand GoToTesting => _goToTesting ?? ( _goToTesting = new RelayCommand(obj =>
+        {
+            if ( SelectedTest == null || SelectedTestMode == null) return;
+            if ( Settings.GetAmountQuestions(SelectedTestMode) > SelectedTest.Questions.Count )
+            {
+                MessageBox.Show("Тест содержит меньше вопросов (" + SelectedTest.Questions.Count + ") , чем выбранно в настройках (" + Settings.GetAmountQuestions(SelectedTestMode) + "). Количество тестов в настройках изменено на: " + SelectedTest.Questions.Count);
+                Settings.GroupAmountQuestions = SelectedTest.Questions.Count;
+            }
+            TestManager manager = new TestManager(Root, this, SelectedTestMode, SelectedTest);
+        }));
+
+        private RelayCommand _goToTestingSettings;
+        public RelayCommand GoToTestingSettings => _goToTestingSettings ?? ( _goToTestingSettings = new RelayCommand(obj =>
+        {
+            TestingSettings settings = new TestingSettings();
+            settings.DataContext = new TestingSettingsVM(settings);
+            settings.Show();
         }));
 
         private RelayCommand _cancel;

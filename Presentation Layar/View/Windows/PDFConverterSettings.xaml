@@ -6,16 +6,24 @@
         xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
         xmlns:local="clr-namespace:Presentation_Layar.View.Windows"
         mc:Ignorable="d"
-        Title="Конвертировать в PDF" Height="400" Width="450" WindowStartupLocation="CenterScreen">
+        
+        Title="Конвертировать в PDF" 
+        MinHeight="450" MinWidth="400"
+        MaxHeight="500" MaxWidth="500"
+        WindowStartupLocation="CenterScreen" 
+        Icon="pack://application:,,,/Resources/ConvertToPDFIcon.png">
 
-    <Grid>
+    <Grid Background="{StaticResource ApplicationBackground}">
         <Grid.RowDefinitions>
+            
             <RowDefinition Height="auto"/>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Настройки PDF"
-                   Style="{StaticResource NormalText_Center}"/>
+        <StackPanel>
+            <TextBlock Text="Настройки PDF"
+                        Style="{StaticResource NormalText_Center}"/>
+        </StackPanel>
         <StackPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -94,6 +102,13 @@
             <TextBox Text="{Binding FileName}"
                          Style="{StaticResource LittleTextBox}"
                          HorizontalContentAlignment="Center"/>
+            <DockPanel>
+                <TextBlock Text="Тест: "
+                           Style="{StaticResource LittleText}"/>
+                <TextBlock DataContext="{Binding Test}"
+                           Text="{Binding Title}"
+                           Style="{StaticResource LittleText}"/>
+            </DockPanel>
             <cmp:ErrorMessage DataContext="{Binding Error}"/>
             <cmp:InfoMessage DataContext="{Binding Info}"/>
         </StackPanel>

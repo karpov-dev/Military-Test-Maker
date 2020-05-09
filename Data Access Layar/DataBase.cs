@@ -16,7 +16,6 @@ namespace Data_Access_Layar
 
         #region Data
         public List<Test> Tests { get; set; }
-        public Settings Settings { get; set; }
         #endregion
 
         #region DataBase Instance
@@ -34,14 +33,13 @@ namespace Data_Access_Layar
             DataPath = DEFAULT_DATA_PATH;
             ReadData();
             Tests = new List<Test>();
-            Settings = new Settings();
         }
         public DataBase(string dataPath)
         {
             if ( dataPath == null ) DataPath = DEFAULT_DATA_PATH;
             DataPath = dataPath;
             Tests = new List<Test>();
-            Settings = new Settings();
+  
             ReadData();
         }
         #endregion
@@ -51,7 +49,6 @@ namespace Data_Access_Layar
         {
             if ( !File.Exists(DataPath) ) return;
             Tests = new List<Test>();
-            Settings = new Settings();
 
             XDocument xdoc = XDocument.Load(DataPath);
             foreach(XElement xmlTest in xdoc.Element("Database").Elements("Test") )
@@ -77,7 +74,7 @@ namespace Data_Access_Layar
         }
         public void WriteData()
         {
-            if ( Tests == null || Settings == null ) return;
+            if ( Tests == null) return;
 
             XDocument xdoc = new XDocument();
             XElement database = new XElement("Database");

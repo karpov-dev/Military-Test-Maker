@@ -13,12 +13,6 @@ namespace Presentation_Layar.ViewModel.Pages
         #endregion
 
         #region Relay Commands
-        private RelayCommand _goToTesting;
-        public RelayCommand GoToTesting => _goToTesting ?? ( _goToTesting = new RelayCommand(obj =>
-        {
-
-        }));
-
         private RelayCommand _goToLearning;
         public RelayCommand GoToLearning => _goToLearning ?? ( _goToLearning = new RelayCommand(obj =>
         {

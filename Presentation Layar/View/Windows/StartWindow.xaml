@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:page="clr-namespace:Presentation_Layar.ViewModel.Pages"
         xmlns:pageView="clr-namespace:Presentation_Layar.View.Pages"
+        xmlns:model="clr-namespace:Presentation_Layar.Model"
         xmlns:local="clr-namespace:Presentation_Layar.View.Windows"
         mc:Ignorable="d"
         Title="StartWindow" Height="450" Width="800" WindowStyle="None" WindowState="Maximized">
 
     <Window.Resources>
+
+        <DataTemplate DataType="{x:Type page:GroupTestingPageVM}">
+            <pageView:GroupTestingPage/>
+        </DataTemplate>
+        
         <DataTemplate DataType="{x:Type page:StartPageVM}">
             <pageView:StartPage/>
         </DataTemplate>
@@ -25,7 +31,7 @@
         <DataTemplate DataType="{x:Type page:QuestionEditorVM}">
             <pageView:QuestionEditor/>
         </DataTemplate>
-        
+
     </Window.Resources>
     
     <Grid Background="{StaticResource ApplicationBackground}">

@@ -25,47 +25,75 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0">
-                    <Button Content="Добавить тест"
-                        Style="{StaticResource Button}"
-                        Command="{Binding AddTest}"/>
-                    <Button Content="Редактировать тест"
-                        Style="{StaticResource Button}"
-                        Command="{Binding EditTest}"
-                        IsEnabled="{Binding ButtonsEnabled}"/>
-                    <Button Content="Удалить"
-                        Style="{StaticResource RedButton}"
-                        Command="{Binding DeleteTest}"
-                        IsEnabled="{Binding ButtonsEnabled}"/>
-                    <Button Content="Назад"
-                        Style="{StaticResource Button}"
-                        Command="{Binding Cancel}"/>
+                    <Button Content="Начать тестирование"
+                            Style="{StaticResource Button}"
+                            IsEnabled="{Binding ButtonsEnabled}"
+                            Command="{Binding GoToTesting}"/>
+                    <ComboBox ItemsSource="{Binding TestModes}"
+                              SelectedItem="{Binding SelectedTestMode}"
+                              Style="{StaticResource NormalComboBox}"/>
                     <cmp:InfoMessage DataContext="{Binding Info}"/>
                     <cmp:ErrorMessage DataContext="{Binding Error}"/>
                 </StackPanel>
                 <DockPanel Grid.Row="1">
+                    <Button Content="Назад"
+                            Style="{StaticResource Button}"
+                            Command="{Binding Cancel}"
+                            DockPanel.Dock="Bottom"/>
+                    <Button Content="Настройки"
+                            Style="{StaticResource Button}"
+                            Command="{Binding GoToTestingSettings}"
+                            DockPanel.Dock="Bottom"/>
                     <Button Content="Экспорт в PDF"
                             Style="{StaticResource Button}"
                             Command="{Binding ExportToPDF}"
                             IsEnabled="{Binding ButtonsEnabled}"
                             DockPanel.Dock="Bottom"/>
-
                 </DockPanel>
             </Grid>
-            <ListView ItemsSource="{Binding Tests}"
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Добавить"
+                            Style="{StaticResource Button}"
+                            Command="{Binding AddTest}"
+                            Grid.Column="0"/>
+                    <Button Content="Редактировать тест"
+                            Style="{StaticResource Button}"
+                            Command="{Binding EditTest}"
+                            IsEnabled="{Binding ButtonsEnabled}"
+                            Grid.Column="1"/>
+                    <Button Content="Удалить"
+                            Style="{StaticResource RedButton}"
+                            Command="{Binding DeleteTest}"
+                            IsEnabled="{Binding ButtonsEnabled}"
+                            Grid.Column="2"/>
+                </Grid>
+                <ListView ItemsSource="{Binding Tests}"
                       SelectedItem="{Binding SelectedTest}"
-                      Grid.Column="1"
+                      Grid.Row="1"
                       Margin="5">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Название"
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Название"
                                         DisplayMemberBinding="{Binding Title}"/>
-                        <GridViewColumn Header="Составитель"
+                            <GridViewColumn Header="Составитель"
                                         DisplayMemberBinding="{Binding Author}"/>
-                        <GridViewColumn Header="Описание"
+                            <GridViewColumn Header="Описание"
                                         DisplayMemberBinding="{Binding Description}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            
         </Grid>
     </Grid>
 </UserControl>

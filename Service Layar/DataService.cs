@@ -10,7 +10,6 @@ namespace Service_Layar
     {
         #region Data Access Objects
         private QuestionDAO _questionDAO = new QuestionDAO();
-        private SettingsDAO _settingsDAO = new SettingsDAO();
         private TestDAO _testDAO = new TestDAO();
         #endregion
 
@@ -32,6 +31,7 @@ namespace Service_Layar
 
         #region Test DAO Methods
         public List<Test> GetTests() => _testDAO.GetTests();
+        public List<Question> GetRandomQuestionsByTest(Test test, int amountQuestion) => _testDAO.GetRandomQuestions(test, amountQuestion);
         public bool InsertTest(Test test) => _testDAO.Insert(test);
         public bool RemoveTest(Test test) => _testDAO.Remove(test);
         public bool UpsertTest(Test oldVersion, Test newVersion) => _testDAO.Upsert(oldVersion, newVersion);

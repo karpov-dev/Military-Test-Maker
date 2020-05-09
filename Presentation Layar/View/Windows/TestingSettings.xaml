@@ -1,0 +1,89 @@
+﻿<Window x:Class="Presentation_Layar.View.Windows.TestingSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
+        xmlns:local="clr-namespace:Presentation_Layar.View.Windows"
+        mc:Ignorable="d"
+        Title="Настройки тестирования"
+        MinHeight="450" MinWidth="400"
+        MaxHeight="500" MaxWidth="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="{StaticResource ApplicationBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="Групповое тестирование"
+                   Style="{StaticResource NormalText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Количество вопросов:"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <TextBlock Text="Время до перехода:"
+                           Style="{StaticResource LittleText}"
+                           Margin="6"/>
+                    <CheckBox Content="Показывать варианты ответа: "
+                              Style="{StaticResource CheckBox}"
+                              IsChecked="{Binding ShowRightAnswer}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding GroupAmountQuestions}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="2"/>
+                    <TextBox Text="{Binding GroupTimeToNextQuestion}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="2"/>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="Персональное тестирование"
+                   Style="{StaticResource NormalText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Время на ответ"
+                               Style="{StaticResource LittleText}"/>
+                    <TextBlock Text="Количество вопросов"
+                               Style="{StaticResource LittleText}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding PersonalTimeToAnswer}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="2"/>
+                    <TextBox Text="{Binding PersonalAmountQuestions}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="2"/>
+                </StackPanel>
+            </Grid>
+            <cmp:ErrorMessage DataContext="{Binding Error}"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Назад"
+                    Style="{StaticResource Button}"
+                    Command="{Binding CancelCommand}"/>
+            <Button Content="Сохранить"
+                    Style="{StaticResource Button}"
+                    Command="{Binding SaveSettings}"
+                    Grid.Column="1"/>
+        </Grid>
+    </Grid>
+</Window>

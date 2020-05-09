@@ -66,7 +66,7 @@
                         <GridViewColumn Header="Вопрос"
                                         DisplayMemberBinding="{Binding Queston}"/>
                         <GridViewColumn Header="Ответ"
-                                        DisplayMemberBinding="{Binding Answer}"/>
+                                        DisplayMemberBinding="{Binding RightAnswer}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

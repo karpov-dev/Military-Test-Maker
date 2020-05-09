@@ -20,10 +20,10 @@ namespace Presentation_Layar.Service
         private const int MAX_SMALL_FONT_SIZE = 12;
         private const int MIN_FONT_SIZE = 6;
 
-        private const float MAX_LINE_SPACING = 2f;
-        private const float MIN_LINE_SPACING = 2f;
+        private const float MAX_LINE_SPACING = 3f;
+        private const float MIN_LINE_SPACING = 1f;
 
-        private const float MAX_WORD_SPACING = 3f;
+        private const float MAX_WORD_SPACING = 4f;
         private const float MIN_WORD_SPACING = 1f;
 
         private const int MAX_QUESTIONS_OFFSET = 60;
@@ -40,7 +40,7 @@ namespace Presentation_Layar.Service
             get => _titleFontSize;
             set
             {
-                if(value < MAX_TITLE_FONT_SIZE && value >= MAX_BIG_FONT_SIZE)
+                if(value < MAX_TITLE_FONT_SIZE && value >= MIN_FONT_SIZE)
                 {
                     _titleFontSize = value;
                 }
@@ -53,7 +53,7 @@ namespace Presentation_Layar.Service
             get => _bigFontSize;
             set
             {
-                if(value < MAX_BIG_FONT_SIZE && value >= MAX_MAIN_FONT_SIZE)
+                if(value < MAX_BIG_FONT_SIZE && value >= MIN_FONT_SIZE)
                 {
                     _bigFontSize = value;
                 }
@@ -66,7 +66,7 @@ namespace Presentation_Layar.Service
             get => _mainFontSize;
             set
             {
-                if(value < MAX_MAIN_FONT_SIZE && value >= MAX_SMALL_FONT_SIZE)
+                if(value < MAX_MAIN_FONT_SIZE && value >= MIN_FONT_SIZE)
                 {
                     _mainFontSize = value;
                 }
