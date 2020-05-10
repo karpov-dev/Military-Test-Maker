@@ -35,6 +35,10 @@
         <DataTemplate DataType="{x:Type page:GroupTestingPageResultVM}">
             <pageView:GroupTestingPageResult/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type page:PersonalTestingVM}">
+            <pageView:PersonalTestingPage/>
+        </DataTemplate>
         
     </Window.Resources>
     

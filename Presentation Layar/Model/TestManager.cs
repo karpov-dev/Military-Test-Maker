@@ -14,7 +14,7 @@ namespace Presentation_Layar.Model
         #region Variables
         private Test _test;
         private DataService _dataService;
-        private SessionStatistic _statistic;
+        private TestStatistic _statistic;
         private List<Question> _questions;
         private List<ViewModelBase> _tests;
         private int _currentTestIndex = 0;
@@ -32,7 +32,7 @@ namespace Presentation_Layar.Model
             _tests = new List<ViewModelBase>();
             _currentTestIndex = 0;
             _dataService = DataService.GetInstance();
-            _statistic = new SessionStatistic();
+            _statistic = new TestStatistic();
             switch ( mode )
             {
                 case Settings.GROUP_MODE: GroupMode(); break;
@@ -67,10 +67,14 @@ namespace Presentation_Layar.Model
         }
         private void PersonalMode()
         {
-
+            _statistic.AmountQuestions = Settings.PersonalAmountQuestions;
+            _questions = _dataService.GetRandomQuestionsByTest(_test, Settings.PersonalAmountQuestions);
+            for(int i = 0; i < _questions.Count; i++ )
+            {
+                _tests.Add(new PersonalTestingVM(Root, Owner, _questions[i], _statistic, this));
+            }
+            NextTest();
         }
         #endregion
-
-
     }
 }

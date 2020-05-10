@@ -12,15 +12,19 @@ using System.Windows.Threading;
 
 namespace Presentation_Layar.ViewModel.Pages
 {
-    class GroupTestingPageVM : ViewModelBase
+    class PersonalTestingVM : ViewModelBase
     {
         #region Variables 
         private TestManager _manager;
-        private DispatcherTimer _timer;
-        public Question _question;
+        private DispatcherTimer _timerToAnswer;
+        private DispatcherTimer _timerToNextQuestion;
+        private Question _question;
+        private double _timeToNextQuestion = 2;
         #endregion
 
         #region Properties
+        public ErrorMessageVM Error { get; set; }
+        public InfoMessageVM Info { get; set; }
 
         private TestStatistic _statistic;
         public TestStatistic Statistic
@@ -32,6 +36,7 @@ namespace Presentation_Layar.ViewModel.Pages
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<AnswerViewVM> AnswerViews { get; set; }
 
         public string Question => _question.Queston;
@@ -47,6 +52,8 @@ namespace Presentation_Layar.ViewModel.Pages
                 OnPropertyChanged();
             }
         }
+
+        public bool ButtonsEnabled { get; set; }
 
         #region Visibility
         private Visibility _oneVisibility;
@@ -97,22 +104,21 @@ namespace Presentation_Layar.ViewModel.Pages
         #endregion
 
         #region Constructors
-        public GroupTestingPageVM(RootVM root, object owner, Question question, TestStatistic statistic, TestManager manager) : base(root, owner)
+        public PersonalTestingVM(RootVM root, object owner, Question question, TestStatistic statistic, TestManager manager) : base(root, owner)
         {
             if ( question == null || statistic == null || manager == null )
             {
                 MessageBox.Show("Возникла ошибка при загрузке теста", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 Root.CurrentVM = Owner;
             }
+
             _question = question;
             Statistic = statistic;
             _manager = manager;
-            TimerTime = Settings.GroupTimeToNextQuestion;
-            AnswerViews = new ObservableCollection<AnswerViewVM>();
-            for(int i = 0; i < _question.Answers.Count; i++ )
-            {
-                AnswerViews.Add(new AnswerViewVM(i + 1, _question.Answers[i]));
-            }
+
+            InitializationObjects();
+            InitializationAnswers();
+            InitializationTimerToAnswer();
         }
         #endregion
 
@@ -122,27 +128,42 @@ namespace Presentation_Layar.ViewModel.Pages
         {
             MessageBoxResult result = MessageBox.Show("Вы точно хотите закончить тестирование", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if ( result == MessageBoxResult.Yes ) Root.CurrentVM = Owner;
-        }));
+        }) );
 
-        private RelayCommand _showRightAnswer;
-        public RelayCommand ShowRightAnswer => _showRightAnswer ?? ( _showRightAnswer = new RelayCommand(obj =>
+        private RelayCommand _checkAnswer;
+        public RelayCommand CheckAnswer => _checkAnswer ?? ( _checkAnswer = new RelayCommand(obj =>
         {
+            AnswerViewVM selectedAnswer = (AnswerViewVM) obj;
+            if ( selectedAnswer.Text != _question.RightAnswer ) Error.Show("Вы выбрали неправильный ответ");
+            else
+            {
+                Info.Show("Правильно");
+                _statistic.RightQuestions++;
+            }
+            _timerToAnswer.Stop();
+            InitializationTimerToNextQuestion();
             HideWrongAnswers();
-            _timer = new DispatcherTimer();
-            _timer.Tick += TimerTick;
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            _timer.Start();
         }));
         #endregion
 
         #region Methods 
-        private void TimerTick(object sender, EventArgs e)
+        private void TimerToAnswer_Tick(object sender, EventArgs e)
         {
             TimerTime -= 0.1;
             if ( TimerTime < 0 )
             {
-                _timer.Stop();
+                _timerToAnswer.Stop();
                 TimerTime = 0;
+                Error.Show("Время на ответ истекло!");
+                HideWrongAnswers();
+            }
+        }
+        private void TimerToNextQuestion_Tick(object sender, EventArgs e)
+        {
+            TimerTime -= 0.1;
+            if(TimerTime < 0 )
+            {
+                _timerToNextQuestion.Stop();
                 _manager.NextTest();
             }
         }
@@ -153,6 +174,38 @@ namespace Presentation_Layar.ViewModel.Pages
             if ( _question.Answers[1] != _question.RightAnswer ) TwoVisibility = Visibility.Collapsed;
             if ( _question.Answers[2] != _question.RightAnswer ) ThreeVisibility = Visibility.Collapsed;
             if ( _question.Answers[3] != _question.RightAnswer ) FourVisibility = Visibility.Collapsed;
+            ButtonsEnabled = false;
+            OnPropertyChanged("ButtonsEnabled");
+        }
+
+        private void InitializationAnswers()
+        {
+            for ( int i = 0; i < _question.Answers.Count; i++ )
+            {
+                AnswerViews.Add(new AnswerViewVM(i + 1, _question.Answers[i]));
+            }
+        }
+        private void InitializationTimerToAnswer()
+        {
+            _timerToAnswer = new DispatcherTimer();
+            _timerToAnswer.Tick += TimerToAnswer_Tick;
+            _timerToAnswer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerToAnswer.Start();
+        }
+        private void InitializationTimerToNextQuestion()
+        {
+            _timerToNextQuestion = new DispatcherTimer();
+            _timerToNextQuestion.Tick += TimerToNextQuestion_Tick;
+            _timerToNextQuestion.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerToNextQuestion.Start();
+        }
+        private void InitializationObjects()
+        {
+            Error = new ErrorMessageVM();
+            Info = new InfoMessageVM();
+            TimerTime = Settings.PersonalTimeToAnswer;
+            AnswerViews = new ObservableCollection<AnswerViewVM>();
+            ButtonsEnabled = true;
         }
         #endregion
     }

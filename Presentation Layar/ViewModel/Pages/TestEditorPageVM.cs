@@ -112,7 +112,11 @@ namespace Presentation_Layar.ViewModel.Pages
             if ( Settings.GetAmountQuestions(SelectedTestMode) > SelectedTest.Questions.Count )
             {
                 MessageBox.Show("Тест содержит меньше вопросов (" + SelectedTest.Questions.Count + ") , чем выбранно в настройках (" + Settings.GetAmountQuestions(SelectedTestMode) + "). Количество тестов в настройках изменено на: " + SelectedTest.Questions.Count);
-                Settings.GroupAmountQuestions = SelectedTest.Questions.Count;
+                switch ( SelectedTestMode )
+                {
+                    case Settings.GROUP_MODE: Settings.GroupAmountQuestions = SelectedTest.Questions.Count; break;
+                    case Settings.PERSONAL_MODE: Settings.PersonalAmountQuestions = SelectedTest.Questions.Count; break;
+                }
             }
             TestManager manager = new TestManager(Root, this, SelectedTestMode, SelectedTest);
         }));

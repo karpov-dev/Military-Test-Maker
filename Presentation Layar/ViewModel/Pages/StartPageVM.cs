@@ -1,4 +1,5 @@
-﻿using Presentation_Layar.Service;
+﻿using Data_Access_Layar;
+using Presentation_Layar.Service;
 using Presentation_Layar.ViewModel.BaseNavigation;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,17 @@ namespace Presentation_Layar.ViewModel.Pages
     class StartPageVM : ViewModelBase
     {
         #region Constructors
-        public StartPageVM(RootVM root, object owner) : base(root, owner) { }
+        public StartPageVM(RootVM root, object owner) : base(root, owner)
+        {
+            System.Windows.Application.Current.Exit += Application_Exit;
+        }
+
+        private void Application_Exit(object sender, System.Windows.ExitEventArgs e)
+        {
+            DataBase _db = DataBase.GetInstance();
+            _db.WriteData_Tests();
+            _db.WriteData_Settings();
+        }
         #endregion
 
         #region Relay Commands

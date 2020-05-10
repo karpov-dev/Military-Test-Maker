@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Business Layar\Business Layar\Business Layar.csproj" />
     <ProjectReference Include="..\Data Layer\Data Layer.csproj" />
     <ProjectReference Include="..\Service Layar\Service Layar.csproj" />
   </ItemGroup>

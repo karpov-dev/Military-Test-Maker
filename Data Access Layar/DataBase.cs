@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Linq;
 using Data_Layer;
 
 namespace Data_Access_Layar
 {
-    class DataBase
+    public class DataBase
     {
         #region Data File Path
-        private const string DEFAULT_DATA_PATH = "data.xml";
-        private string DataPath;
+        private const string DATA_TEST_FILE_NAME = "TestData.xml";
+        private const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
+        private string DEFAULT_PATH = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
         #endregion
 
         #region Data
@@ -30,27 +32,21 @@ namespace Data_Access_Layar
         #region Constructors
         public DataBase()
         {
-            DataPath = DEFAULT_DATA_PATH;
-            ReadData();
-            Tests = new List<Test>();
-        }
-        public DataBase(string dataPath)
-        {
-            if ( dataPath == null ) DataPath = DEFAULT_DATA_PATH;
-            DataPath = dataPath;
-            Tests = new List<Test>();
-  
-            ReadData();
+            ReadData_Settings(DEFAULT_PATH, DATA_SETTINGS_FILE_NAME);
+            ReadData_Tests(DEFAULT_PATH, DATA_TEST_FILE_NAME);
         }
         #endregion
 
         #region Read/Write data
-        public void ReadData()
+        public void ReadData_Tests (string path = null, string fileName = null)
         {
-            if ( !File.Exists(DataPath) ) return;
             Tests = new List<Test>();
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) return;
+            string fullPath = path + "\\" + fileName;
+            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + DATA_TEST_FILE_NAME;
+            if ( !File.Exists(fullPath) ) return;
 
-            XDocument xdoc = XDocument.Load(DataPath);
+            XDocument xdoc = XDocument.Load(fullPath);
             foreach(XElement xmlTest in xdoc.Element("Database").Elements("Test") )
             {
                 Test test = new Test()
@@ -59,22 +55,40 @@ namespace Data_Access_Layar
                     Author = xmlTest.Element("Author").Value,
                     Description = xmlTest.Element("Description").Value
                 };
-                foreach(XElement xmlQuestion in xmlTest.Elements("Question") )
+                foreach(XElement xmlQuestion in xmlTest.Elements("Questions") )
                 {
                     Question question = new Question()
                     {
                         Queston = xmlQuestion.Element("Question").Value,
-                        
+                        RightAnswer = xmlQuestion.Element("RightAnswer").Value
                     };
+                    question.Answers = new List<string>();
+                    foreach(XElement xmlAnswer in xmlQuestion.Element("Answers").Elements("Answer") )
+                    {
+                        question.Answers.Add(xmlAnswer.Value);
+                    }
                     test.Questions.Add(question);
                 }
                 Tests.Add(test);
             }
 
         }
-        public void WriteData()
+        public void ReadData_Settings(string path = null, string fileName = null)
         {
-            if ( Tests == null) return;
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) return;
+            string fullPath = path + "\\" + fileName;
+            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + DATA_SETTINGS_FILE_NAME;
+            if ( !File.Exists(fullPath) ) return;
+
+
+        }
+
+        public void WriteData_Tests(string path = null, string fileName = null)
+        {
+            if ( Tests == null ) return;
+            string fullName = "";
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullName = DEFAULT_PATH + "\\" + DATA_TEST_FILE_NAME;
+            else fullName = path + "\\" + fileName;
 
             XDocument xdoc = new XDocument();
             XElement database = new XElement("Database");
@@ -86,15 +100,36 @@ namespace Data_Access_Layar
                 xmlTest.Add(new XElement("Description", test.Description));
                 foreach(Question question in test.Questions )
                 {
-                    XElement xmlQuestion = new XElement("Question");
+                    XElement xmlQuestion = new XElement("Questions");
                     xmlQuestion.Add(new XElement("Question", question.Queston));
-                    
+                    xmlQuestion.Add(new XElement("RightAnswer", question.RightAnswer));
+                    XElement xmlAnswers = new XElement("Answers");
+                    foreach (string answer in question.Answers )
+                    {
+                        xmlAnswers.Add(new XElement("Answer", answer));
+                    }
+                    xmlQuestion.Add(xmlAnswers);
                     xmlTest.Add(xmlQuestion);
                 }
                 database.Add(xmlTest);
             }
             xdoc.Add(database);
-            xdoc.Save(DataPath);
+            try
+            {
+                xdoc.Save(fullName);
+            } catch(Exception e )
+            {
+
+            }
+            
+        }
+        public void WriteData_Settings(string path = null, string fileName = null)
+        {
+            string fullPath = "";
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullPath = DEFAULT_PATH + "\\" + DATA_SETTINGS_FILE_NAME;
+            else fullPath = DEFAULT_PATH + "\\" + fileName;
+
+            
         }
         #endregion
 

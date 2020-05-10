@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Data_Layer
 {
-    public static class Settings
+    [Serializable]
+    public class Settings
     {
         #region Constants
         public const int DEFAULT_GROUP_AMOUNT_QUESTIONS = 10;
