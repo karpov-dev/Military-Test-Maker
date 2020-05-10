@@ -16,6 +16,7 @@ namespace Presentation_Layar.ViewModel.Pages
     {
         #region Variables
         private DataService _dataService = DataService.GetInstance();
+        private Settings _settings = Settings.GetInstance();
         #endregion
 
         #region Constructors
@@ -109,13 +110,13 @@ namespace Presentation_Layar.ViewModel.Pages
         public RelayCommand GoToTesting => _goToTesting ?? ( _goToTesting = new RelayCommand(obj =>
         {
             if ( SelectedTest == null || SelectedTestMode == null) return;
-            if ( Settings.GetAmountQuestions(SelectedTestMode) > SelectedTest.Questions.Count )
+            if ( _settings.GetAmountQuestions(SelectedTestMode) > SelectedTest.Questions.Count )
             {
-                MessageBox.Show("Тест содержит меньше вопросов (" + SelectedTest.Questions.Count + ") , чем выбранно в настройках (" + Settings.GetAmountQuestions(SelectedTestMode) + "). Количество тестов в настройках изменено на: " + SelectedTest.Questions.Count);
+                MessageBox.Show("Тест содержит меньше вопросов (" + SelectedTest.Questions.Count + ") , чем выбранно в настройках (" + _settings.GetAmountQuestions(SelectedTestMode) + "). Количество тестов в настройках изменено на: " + SelectedTest.Questions.Count);
                 switch ( SelectedTestMode )
                 {
-                    case Settings.GROUP_MODE: Settings.GroupAmountQuestions = SelectedTest.Questions.Count; break;
-                    case Settings.PERSONAL_MODE: Settings.PersonalAmountQuestions = SelectedTest.Questions.Count; break;
+                    case Settings.GROUP_MODE: _settings.GroupAmountQuestions = SelectedTest.Questions.Count; break;
+                    case Settings.PERSONAL_MODE: _settings.PersonalAmountQuestions = SelectedTest.Questions.Count; break;
                 }
             }
             TestManager manager = new TestManager(Root, this, SelectedTestMode, SelectedTest);

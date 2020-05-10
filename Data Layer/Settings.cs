@@ -39,9 +39,25 @@ namespace Data_Layer
         public const string DEFAULT_SELECTED_MODE = GROUP_MODE;
         #endregion
 
+
+        #region Instance
+        private static Settings instance;
+        public static Settings GetInstance()
+        {
+            if ( instance == null ) instance = new Settings();
+            return instance;
+        }
+        public static void SetInstance(Settings inst)
+        {
+            if ( inst == null ) inst = new Settings();
+            instance = inst;
+        }
+        #endregion
+
+
         #region Properties
-        private static int _groupAmountQuestions = DEFAULT_GROUP_AMOUNT_QUESTIONS;
-        public static int GroupAmountQuestions
+        private int _groupAmountQuestions = DEFAULT_GROUP_AMOUNT_QUESTIONS;
+        public int GroupAmountQuestions
         {
             get => _groupAmountQuestions;
             set
@@ -53,8 +69,8 @@ namespace Data_Layer
             }
         }
 
-        private static double _groupTimeToNextQuestion = DEFAULT_GROUP_TIME_TO_NEXT_QUESTION;
-        public static double GroupTimeToNextQuestion
+        private double _groupTimeToNextQuestion = DEFAULT_GROUP_TIME_TO_NEXT_QUESTION;
+        public double GroupTimeToNextQuestion
         {
             get => _groupTimeToNextQuestion;
             set
@@ -66,8 +82,8 @@ namespace Data_Layer
             }
         }
 
-        private static bool _showRightAnswer = DEFAULT_SHOW_RIGHT_ANSWERS;
-        public static bool ShowRightAnswer
+        private bool _showRightAnswer = DEFAULT_SHOW_RIGHT_ANSWERS;
+        public bool ShowRightAnswer
         {
             get => _showRightAnswer;
             set
@@ -76,8 +92,8 @@ namespace Data_Layer
             }
         }
 
-        private static double _personalTimeToAnswer = DEFAULT_PERSONAL_TIME_TO_NEXT_QURSTION;
-        public static double PersonalTimeToAnswer
+        private double _personalTimeToAnswer = DEFAULT_PERSONAL_TIME_TO_NEXT_QURSTION;
+        public double PersonalTimeToAnswer
         {
             get => _personalTimeToAnswer;
             set
@@ -89,8 +105,8 @@ namespace Data_Layer
             }
         }
 
-        private static int _personalAmountQuestions = DEFAULT_PERSONAL_AMOUNT_QUESTIONS;
-        public static int PersonalAmountQuestions
+        private int _personalAmountQuestions = DEFAULT_PERSONAL_AMOUNT_QUESTIONS;
+        public int PersonalAmountQuestions
         {
             get => _personalAmountQuestions;
             set
@@ -102,8 +118,8 @@ namespace Data_Layer
             }
         }
 
-        private static int _imageWidth = DEFAULT_IMAGE_WIDTH;
-        public static int ImageWidht
+        private int _imageWidth = DEFAULT_IMAGE_WIDTH;
+        public int ImageWidht
         {
             get => _imageWidth;
             set
@@ -115,8 +131,8 @@ namespace Data_Layer
             }
         }
 
-        private static int _imageHeight = DEFAULT_IMAGE_HEIGHT;
-        public static int ImageHeight
+        private int _imageHeight = DEFAULT_IMAGE_HEIGHT;
+        public int ImageHeight
         {
             get => _imageHeight;
             set
@@ -130,7 +146,7 @@ namespace Data_Layer
         #endregion
 
         #region Methods
-        public static int GetAmountQuestions(string testingMode)
+        public int GetAmountQuestions(string testingMode)
         {
             if ( string.IsNullOrWhiteSpace(testingMode) ) return 0;
             switch ( testingMode )

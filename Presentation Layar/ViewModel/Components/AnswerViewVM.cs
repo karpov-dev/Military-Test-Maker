@@ -10,6 +10,11 @@ namespace Presentation_Layar.ViewModel.Components
 {
     class AnswerViewVM : ModelPropertyChanged 
     {
+
+        #region Variables
+        private Settings _settings;
+        #endregion
+
         #region Properies
         private string _text;
         public string Text
@@ -33,7 +38,7 @@ namespace Presentation_Layar.ViewModel.Components
             }
         }
 
-        private int _imageWidth = Settings.ImageWidht; 
+        private int _imageWidth;
         public int ImageWidth
         {
             get => _imageWidth;
@@ -44,7 +49,7 @@ namespace Presentation_Layar.ViewModel.Components
             }
         }
 
-        private int _imageHeight = Settings.ImageHeight;
+        private int _imageHeight;
         public int ImageHeight
         {
             get => _imageHeight;
@@ -82,8 +87,14 @@ namespace Presentation_Layar.ViewModel.Components
         public AnswerViewVM(int number, string text)
         {
             if ( text == null ) return;
+
+            _settings = Settings.GetInstance();
+
             Text = text;
             Number = number;
+            ImageWidth = _settings.ImageWidht;
+            ImageHeight = _settings.ImageHeight;
+
             if ( FileWorker.FileExists(text) && FileWorker.IsImage(text) ) ShowImage();
             else ShowText();
         }

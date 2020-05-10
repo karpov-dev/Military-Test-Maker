@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Presentation_Layar.Model
 {
-    class TestStatistic : ModelPropertyChanged
+    class TestSessionInformation : ModelPropertyChanged
     {
         private int _amountQuestions;
         public int AmountQuestions
@@ -36,6 +36,17 @@ namespace Presentation_Layar.Model
             set
             {
                 _currentQuestion = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _wrongQestions;
+        public int WrongQuestions
+        {
+            get => _wrongQestions;
+            set
+            {
+                _wrongQestions = value;
                 OnPropertyChanged();
             }
         }

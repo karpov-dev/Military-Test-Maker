@@ -17,13 +17,14 @@ namespace Presentation_Layar.ViewModel.Pages
         #region Variables 
         private TestManager _manager;
         private DispatcherTimer _timer;
-        public Question _question;
+        private Question _question;
+        private Settings _settings;
         #endregion
 
         #region Properties
 
-        private TestStatistic _statistic;
-        public TestStatistic Statistic
+        private TestSessionInformation _statistic;
+        public TestSessionInformation Statistic
         {
             get => _statistic;
             set
@@ -97,18 +98,22 @@ namespace Presentation_Layar.ViewModel.Pages
         #endregion
 
         #region Constructors
-        public GroupTestingPageVM(RootVM root, object owner, Question question, TestStatistic statistic, TestManager manager) : base(root, owner)
+        public GroupTestingPageVM(RootVM root, object owner, Question question, TestSessionInformation statistic, TestManager manager) : base(root, owner)
         {
             if ( question == null || statistic == null || manager == null )
             {
                 MessageBox.Show("Возникла ошибка при загрузке теста", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 Root.CurrentVM = Owner;
             }
+
             _question = question;
             Statistic = statistic;
             _manager = manager;
-            TimerTime = Settings.GroupTimeToNextQuestion;
+
+            _settings = Settings.GetInstance();
             AnswerViews = new ObservableCollection<AnswerViewVM>();
+            TimerTime = _settings.GroupTimeToNextQuestion;
+            
             for(int i = 0; i < _question.Answers.Count; i++ )
             {
                 AnswerViews.Add(new AnswerViewVM(i + 1, _question.Answers[i]));

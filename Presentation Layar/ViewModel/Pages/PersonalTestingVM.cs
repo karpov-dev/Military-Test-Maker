@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -16,9 +17,9 @@ namespace Presentation_Layar.ViewModel.Pages
     {
         #region Variables 
         private TestManager _manager;
-        private DispatcherTimer _timerToAnswer;
         private DispatcherTimer _timerToNextQuestion;
         private Question _question;
+        private Settings _settings;
         private double _timeToNextQuestion = 2;
         #endregion
 
@@ -26,8 +27,8 @@ namespace Presentation_Layar.ViewModel.Pages
         public ErrorMessageVM Error { get; set; }
         public InfoMessageVM Info { get; set; }
 
-        private TestStatistic _statistic;
-        public TestStatistic Statistic
+        private TestSessionInformation _statistic;
+        public TestSessionInformation Statistic
         {
             get => _statistic;
             set
@@ -104,7 +105,7 @@ namespace Presentation_Layar.ViewModel.Pages
         #endregion
 
         #region Constructors
-        public PersonalTestingVM(RootVM root, object owner, Question question, TestStatistic statistic, TestManager manager) : base(root, owner)
+        public PersonalTestingVM(RootVM root, object owner, Question question, TestSessionInformation statistic, TestManager manager) : base(root, owner)
         {
             if ( question == null || statistic == null || manager == null )
             {
@@ -112,36 +113,39 @@ namespace Presentation_Layar.ViewModel.Pages
                 Root.CurrentVM = Owner;
             }
 
+            _settings = Settings.GetInstance();
             _question = question;
             Statistic = statistic;
             _manager = manager;
 
             InitializationObjects();
             InitializationAnswers();
-            InitializationTimerToAnswer();
         }
         #endregion
 
         #region Relay Commands 
-        private RelayCommand _cancelCommand;
-        public RelayCommand CancelCommand => _cancelCommand ?? ( _cancelCommand = new RelayCommand(obj =>
+        public RelayCommand CancelCommand => new RelayCommand(obj =>
         {
+            _timerToNextQuestion.Stop();
             MessageBoxResult result = MessageBox.Show("Вы точно хотите закончить тестирование", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if ( result == MessageBoxResult.Yes ) Root.CurrentVM = Owner;
-        }) );
+            else _timerToNextQuestion.Start();
+        });
 
         private RelayCommand _checkAnswer;
         public RelayCommand CheckAnswer => _checkAnswer ?? ( _checkAnswer = new RelayCommand(obj =>
         {
             AnswerViewVM selectedAnswer = (AnswerViewVM) obj;
-            if ( selectedAnswer.Text != _question.RightAnswer ) Error.Show("Вы выбрали неправильный ответ");
+            if ( selectedAnswer.Text != _question.RightAnswer ) 
+            {
+                Error.Show("Вы выбрали неправильный ответ");
+                _statistic.WrongQuestions++;
+            } 
             else
             {
                 Info.Show("Правильно");
                 _statistic.RightQuestions++;
             }
-            _timerToAnswer.Stop();
-            InitializationTimerToNextQuestion();
             HideWrongAnswers();
         }));
         #endregion
@@ -152,19 +156,9 @@ namespace Presentation_Layar.ViewModel.Pages
             TimerTime -= 0.1;
             if ( TimerTime < 0 )
             {
-                _timerToAnswer.Stop();
                 TimerTime = 0;
                 Error.Show("Время на ответ истекло!");
                 HideWrongAnswers();
-            }
-        }
-        private void TimerToNextQuestion_Tick(object sender, EventArgs e)
-        {
-            TimerTime -= 0.1;
-            if(TimerTime < 0 )
-            {
-                _timerToNextQuestion.Stop();
-                _manager.NextTest();
             }
         }
         private void HideWrongAnswers()
@@ -176,6 +170,17 @@ namespace Presentation_Layar.ViewModel.Pages
             if ( _question.Answers[3] != _question.RightAnswer ) FourVisibility = Visibility.Collapsed;
             ButtonsEnabled = false;
             OnPropertyChanged("ButtonsEnabled");
+            _timerToNextQuestion.Start();
+        }
+
+        private void TimerToNextQuestion_Tick(object sender, EventArgs e)
+        {
+            _timeToNextQuestion -= 0.1;
+            if(_timeToNextQuestion < 0 )
+            {
+                _timerToNextQuestion.Stop();
+                _manager.NextTest();
+            }
         }
 
         private void InitializationAnswers()
@@ -185,27 +190,16 @@ namespace Presentation_Layar.ViewModel.Pages
                 AnswerViews.Add(new AnswerViewVM(i + 1, _question.Answers[i]));
             }
         }
-        private void InitializationTimerToAnswer()
-        {
-            _timerToAnswer = new DispatcherTimer();
-            _timerToAnswer.Tick += TimerToAnswer_Tick;
-            _timerToAnswer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            _timerToAnswer.Start();
-        }
-        private void InitializationTimerToNextQuestion()
-        {
-            _timerToNextQuestion = new DispatcherTimer();
-            _timerToNextQuestion.Tick += TimerToNextQuestion_Tick;
-            _timerToNextQuestion.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            _timerToNextQuestion.Start();
-        }
         private void InitializationObjects()
         {
             Error = new ErrorMessageVM();
             Info = new InfoMessageVM();
-            TimerTime = Settings.PersonalTimeToAnswer;
+            TimerTime = _settings.PersonalTimeToAnswer;
             AnswerViews = new ObservableCollection<AnswerViewVM>();
             ButtonsEnabled = true;
+            _timerToNextQuestion = new DispatcherTimer();
+            _timerToNextQuestion.Tick += TimerToNextQuestion_Tick;
+            _timerToNextQuestion.Interval = new TimeSpan(0, 0, 0, 0, 100);
         }
         #endregion
     }

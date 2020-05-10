@@ -10,11 +10,22 @@ namespace Presentation_Layar.ViewModel.Windows
 {
     class TestingSettingsVM : ModelPropertyChanged
     {
+        #region Variables
+        private Settings _settings = Settings.GetInstance();
+        #endregion
+
         #region Constructors
         public TestingSettingsVM(TestingSettings window)
         {
             Window = window;
             Error = new ErrorMessageVM();
+            GroupAmountQuestions = _settings.GroupAmountQuestions;
+            GroupTimeToNextQuestion = _settings.GroupTimeToNextQuestion;
+            ShowRightAnswer = _settings.ShowRightAnswer;
+            PersonalAmountQuestions = _settings.PersonalAmountQuestions;
+            PersonalTimeToAnswer = _settings.PersonalTimeToAnswer;
+            ImageHeight = _settings.ImageHeight;
+            ImageWidth = _settings.ImageWidht;
         }
         #endregion
 
@@ -23,7 +34,7 @@ namespace Presentation_Layar.ViewModel.Windows
         public TestingSettings Window { get; set; }
 
         #region Group Settings
-        private int _groupAmountQuestions = Settings.GroupAmountQuestions;
+        private int _groupAmountQuestions;
         public int GroupAmountQuestions
         {
             get => _groupAmountQuestions;
@@ -35,7 +46,7 @@ namespace Presentation_Layar.ViewModel.Windows
             }
         }
 
-        private double _groupTimeToNextQuestion = Settings.GroupTimeToNextQuestion;
+        private double _groupTimeToNextQuestion;
         public double GroupTimeToNextQuestion
         {
             get => _groupTimeToNextQuestion;
@@ -47,11 +58,11 @@ namespace Presentation_Layar.ViewModel.Windows
             }
         }
 
-        public bool ShowRightAnswer { get; set; } = Settings.ShowRightAnswer;
+        public bool ShowRightAnswer { get; set; }
         #endregion
 
         #region Personal Settings
-        private double _personalTimeToAnswer = Settings.PersonalTimeToAnswer;
+        private double _personalTimeToAnswer;
         public double PersonalTimeToAnswer
         {
             get => _personalTimeToAnswer;
@@ -63,7 +74,7 @@ namespace Presentation_Layar.ViewModel.Windows
             }
         }
 
-        private int _personalAmountQuestions = Settings.PersonalAmountQuestions;
+        private int _personalAmountQuestions;
         public int PersonalAmountQuestions
         {
             get => _personalAmountQuestions;
@@ -77,7 +88,7 @@ namespace Presentation_Layar.ViewModel.Windows
         #endregion
 
         #region General Settings
-        private int _imageWidth = Settings.ImageWidht;
+        private int _imageWidth;
         public int ImageWidth
         {
             get => _imageWidth;
@@ -89,7 +100,7 @@ namespace Presentation_Layar.ViewModel.Windows
             }
         }
 
-        private int _imageHeight = Settings.ImageHeight;
+        private int _imageHeight;
         public int ImageHeight
         {
             get => _imageHeight;
@@ -108,13 +119,13 @@ namespace Presentation_Layar.ViewModel.Windows
         private RelayCommand _saveSettings;
         public RelayCommand SaveSettings => _saveSettings ?? ( _saveSettings = new RelayCommand(obj =>
         {
-            Settings.GroupAmountQuestions = GroupAmountQuestions;
-            Settings.GroupTimeToNextQuestion = GroupTimeToNextQuestion;
-            Settings.ShowRightAnswer = ShowRightAnswer;
-            Settings.PersonalTimeToAnswer = PersonalTimeToAnswer;
-            Settings.PersonalAmountQuestions = PersonalAmountQuestions;
-            Settings.ImageHeight = ImageHeight;
-            Settings.ImageWidht = ImageWidth;
+            _settings.GroupAmountQuestions = GroupAmountQuestions;
+            _settings.GroupTimeToNextQuestion = GroupTimeToNextQuestion;
+            _settings.ShowRightAnswer = ShowRightAnswer;
+            _settings.PersonalTimeToAnswer = PersonalTimeToAnswer;
+            _settings.PersonalAmountQuestions = PersonalAmountQuestions;
+            _settings.ImageHeight = ImageHeight;
+            _settings.ImageWidht = ImageWidth;
             Window.Hide();
         }));
 
