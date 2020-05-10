@@ -50,5 +50,16 @@ namespace Presentation_Layar.Model
                 OnPropertyChanged();
             }
         }
+
+        private double _totalTime;
+        public double TotalTime
+        {
+            get => _totalTime;
+            set
+            {
+                _totalTime = Math.Round(value, 2);
+                OnPropertyChanged();
+            }
+        }
     }
 }

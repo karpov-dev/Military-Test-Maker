@@ -37,6 +37,9 @@ namespace Data_Layer
         public const string GROUP_MODE = "Групповой режим";
         public const string PERSONAL_MODE = "Персональный режим";
         public const string DEFAULT_SELECTED_MODE = GROUP_MODE;
+
+        public const string DATA_TEST_FILE_NAME = "TestData.xml";
+        public const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
         #endregion
 
 
@@ -144,6 +147,7 @@ namespace Data_Layer
             }
         }
         #endregion
+
 
         #region Methods
         public int GetAmountQuestions(string testingMode)

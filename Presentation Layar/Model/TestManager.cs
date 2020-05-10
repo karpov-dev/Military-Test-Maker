@@ -19,6 +19,7 @@ namespace Presentation_Layar.Model
         private List<ViewModelBase> _tests;
         private int _currentTestIndex = 0;
         private Settings _settings;
+        private string _mode;
         #endregion
 
 
@@ -33,6 +34,7 @@ namespace Presentation_Layar.Model
 
             _test = test;
             _currentTestIndex = 0;
+            _mode = mode;
 
             _dataService = DataService.GetInstance();
             _settings = Settings.GetInstance();
@@ -53,7 +55,12 @@ namespace Presentation_Layar.Model
         {
             if (_currentTestIndex >= _tests.Count )
             {
-                Root.CurrentVM = new GroupTestingPageResultVM(Root, Owner);
+                switch ( _mode )
+                {
+                    case Settings.GROUP_MODE: Root.CurrentVM = new GroupTestingPageResultVM(Root, Owner); break;
+                    case Settings.PERSONAL_MODE: Root.CurrentVM = new PersonalTestingPageResult(Root, Owner, _statistic); break;
+                }
+                
                 return;
             }
 

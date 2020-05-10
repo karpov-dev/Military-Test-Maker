@@ -11,8 +11,6 @@ namespace Data_Access_Layar
     public class DataBase
     {
         #region Data File Path
-        private const string DATA_TEST_FILE_NAME = "TestData.xml";
-        private const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
         private string DEFAULT_PATH = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
         #endregion
 
@@ -33,8 +31,8 @@ namespace Data_Access_Layar
         #region Constructors
         public DataBase()
         {
-            ReadData_Settings(DEFAULT_PATH, DATA_SETTINGS_FILE_NAME);
-            ReadData_Tests(DEFAULT_PATH, DATA_TEST_FILE_NAME);
+            ReadData_Settings(DEFAULT_PATH, Settings.DATA_SETTINGS_FILE_NAME);
+            ReadData_Tests(DEFAULT_PATH, Settings.DATA_TEST_FILE_NAME);
         }
         #endregion
 
@@ -44,7 +42,7 @@ namespace Data_Access_Layar
             Tests = new List<Test>();
             if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) return;
             string fullPath = path + "\\" + fileName;
-            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + DATA_TEST_FILE_NAME;
+            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_TEST_FILE_NAME;
             if ( !File.Exists(fullPath) ) return;
 
             XDocument xdoc = XDocument.Load(fullPath);
@@ -78,7 +76,7 @@ namespace Data_Access_Layar
         {
             if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) return;
             string fullPath = path + "\\" + fileName;
-            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + DATA_SETTINGS_FILE_NAME;
+            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_SETTINGS_FILE_NAME;
             if ( !File.Exists(fullPath) ) return;
 
             BinaryFormatter formatter = new BinaryFormatter();
@@ -93,7 +91,7 @@ namespace Data_Access_Layar
         {
             if ( Tests == null ) return;
             string fullName = "";
-            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullName = DEFAULT_PATH + "\\" + DATA_TEST_FILE_NAME;
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullName = DEFAULT_PATH + "\\" + Settings.DATA_TEST_FILE_NAME;
             else fullName = path + "\\" + fileName;
 
             XDocument xdoc = new XDocument();
@@ -132,7 +130,7 @@ namespace Data_Access_Layar
         public void WriteData_Settings(string path = null, string fileName = null)
         {
             string fullPath = "";
-            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullPath = DEFAULT_PATH + "\\" + DATA_SETTINGS_FILE_NAME;
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_SETTINGS_FILE_NAME;
             else fullPath = DEFAULT_PATH + "\\" + fileName;
 
             BinaryFormatter formatter = new BinaryFormatter();
