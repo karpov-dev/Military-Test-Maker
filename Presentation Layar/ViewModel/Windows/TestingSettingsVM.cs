@@ -76,6 +76,32 @@ namespace Presentation_Layar.ViewModel.Windows
         }
         #endregion
 
+        #region General Settings
+        private int _imageWidth = Settings.ImageWidht;
+        public int ImageWidth
+        {
+            get => _imageWidth;
+            set
+            {
+                Error.Hide();
+                if ( value <= Settings.MAX_IMAGE_WIDTH && value >= Settings.MIN_IMAGE_WIDTH ) _imageWidth = value;
+                else Error.Show("Ширина изображения должна быть в диапозоне от " + Settings.MIN_IMAGE_WIDTH + " до " + Settings.MAX_IMAGE_WIDTH);
+            }
+        }
+
+        private int _imageHeight = Settings.ImageHeight;
+        public int ImageHeight
+        {
+            get => _imageHeight;
+            set
+            {
+                Error.Hide();
+                if ( value <= Settings.MAX_IMAGE_HEIGHT && value >= Settings.MIN_IMAGE_HEIGHT ) _imageHeight = value;
+                else Error.Show("Высота изображения должна быть в диапозоне от " + Settings.MIN_IMAGE_HEIGHT + " до " + Settings.MAX_IMAGE_HEIGHT);
+            }
+        }
+        #endregion
+
         #endregion
 
         #region RelayCommands
@@ -87,6 +113,8 @@ namespace Presentation_Layar.ViewModel.Windows
             Settings.ShowRightAnswer = ShowRightAnswer;
             Settings.PersonalTimeToAnswer = PersonalTimeToAnswer;
             Settings.PersonalAmountQuestions = PersonalAmountQuestions;
+            Settings.ImageHeight = ImageHeight;
+            Settings.ImageWidht = ImageWidth;
             Window.Hide();
         }));
 

@@ -32,6 +32,7 @@ namespace Presentation_Layar.Model
 
         public static bool FileExists(string path)
         {
+            if ( string.IsNullOrWhiteSpace(path) ) return false;
             FileInfo file = new FileInfo(path);
             if ( file.Exists ) return true;
             return false;

@@ -2,6 +2,7 @@
 using Presentation_Layar.Model;
 using Presentation_Layar.Service;
 using Presentation_Layar.ViewModel.BaseNavigation;
+using Presentation_Layar.ViewModel.Components;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace Presentation_Layar.ViewModel.Pages
         #region Properties
 
         public SessionStatistic Statistic { get; set; }
+        public ObservableCollection<AnswerViewVM> AnswerViews { get; set; }
 
         public string Question => _question.Queston;
         public List<string> Answers => _question.Answers;
@@ -97,6 +99,11 @@ namespace Presentation_Layar.ViewModel.Pages
             Statistic = statistic;
             _manager = manager;
             TimerTime = Settings.GroupTimeToNextQuestion;
+            AnswerViews = new ObservableCollection<AnswerViewVM>();
+            for(int i = 0; i < _question.Answers.Count; i++ )
+            {
+                AnswerViews.Add(new AnswerViewVM(i + 1, _question.Answers[i]));
+            }
         }
         #endregion
 

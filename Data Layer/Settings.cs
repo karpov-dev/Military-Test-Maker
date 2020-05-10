@@ -23,6 +23,14 @@ namespace Data_Layer
         public const int MAX_PERSONAL_AMOUNT_QUESTIONS = 50;
         public const int MIN_PERSONAL_AMOUNT_QUESTIONS = 3;
 
+        public const int DEFAULT_IMAGE_WIDTH = 200;
+        public const int MAX_IMAGE_WIDTH = 500;
+        public const int MIN_IMAGE_WIDTH = 100;
+
+        public const int DEFAULT_IMAGE_HEIGHT = 200;
+        public const int MAX_IMAGE_HEIGHT = 500;
+        public const int MIN_IMAGE_HEIGHT = 100;
+
         public const bool DEFAULT_SHOW_RIGHT_ANSWERS = true;
 
         public const string GROUP_MODE = "Групповой режим";
@@ -89,6 +97,32 @@ namespace Data_Layer
                 if(value <= MAX_PERSONAL_AMOUNT_QUESTIONS && value >= MIN_PERSONAL_AMOUNT_QUESTIONS )
                 {
                     _personalAmountQuestions = value;
+                }
+            }
+        }
+
+        private static int _imageWidth = DEFAULT_IMAGE_WIDTH;
+        public static int ImageWidht
+        {
+            get => _imageWidth;
+            set
+            {
+                if(value <= MAX_IMAGE_WIDTH && value >= MIN_IMAGE_WIDTH )
+                {
+                    _imageWidth = value;
+                }
+            }
+        }
+
+        private static int _imageHeight = DEFAULT_IMAGE_HEIGHT;
+        public static int ImageHeight
+        {
+            get => _imageHeight;
+            set
+            {
+                if(value <= MAX_IMAGE_HEIGHT && value >= MIN_IMAGE_HEIGHT )
+                {
+                    _imageHeight = value;
                 }
             }
         }

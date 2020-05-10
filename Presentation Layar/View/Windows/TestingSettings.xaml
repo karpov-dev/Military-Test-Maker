@@ -54,9 +54,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="Время на ответ"
+                    <TextBlock Text="Время на ответ:"
                                Style="{StaticResource LittleText}"/>
-                    <TextBlock Text="Количество вопросов"
+                    <TextBlock Text="Количество вопросов:"
                                Style="{StaticResource LittleText}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
@@ -68,6 +68,32 @@
                              Style="{StaticResource LittleTextBox}"
                              HorizontalContentAlignment="Center"
                              MaxLength="2"/>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="Общее"
+                       Style="{StaticResource NormalText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Ширина изображений, px:"
+                               Style="{StaticResource LittleText}"
+                               Margin="6"/>
+                    <TextBlock Text="Высота изображений, px:"
+                               Style="{StaticResource LittleText}"
+                               Margin="6"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding ImageWidth}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding ImageHeight}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
                 </StackPanel>
             </Grid>
             <cmp:ErrorMessage DataContext="{Binding Error}"/>
