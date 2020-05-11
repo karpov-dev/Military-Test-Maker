@@ -8,22 +8,45 @@ namespace Data_Layer
     public class Settings
     {
         #region Constants
+
+
+        #region GROUP AMOUNT QUESTIONS
         public const int DEFAULT_GROUP_AMOUNT_QUESTIONS = 10;
         public const int MAX_GROUP_AMOUNT_QUESTIONS = 50;
         public const int MIN_GROUP_AMOUNT_QUESTIONS = 3;
+        #endregion
 
+        #region GROUP TEST TIME
         public const double DEFAULT_GROUP_TIME_TO_NEXT_QUESTION = 2;
         public const double MAX_GROUP_TIME_TO_NEXT_QUESTION = 60;
         public const double MIN_GROUP_TIME_TO_NEXT_QUESTION = 0.1;
+        #endregion
 
+        #region PERSONAL TEST TIME
         public const double DEFAULT_PERSONAL_TIME_TO_NEXT_QURSTION = 2;
         public const double MAX_PERSONAL_TIME_TO_NEXT_QURSTION = 60;
         public const double MIN_PERSONAL_TIME_TO_NEXT_QURSTION = 0.1;
+        #endregion
 
+        #region PERSONAL MAX TEST TIME
+        public const double DEFAULT_PERSONAL_TIME_TO_TEST_END = 180;
+        public const double MAX_PERSONAL_TIME_TO_TEST_END = 3600;
+        public const double MIN_PERSONAL_TIME_TEST_END = 10;
+        #endregion
+
+        #region PERSONAL AMOUNT QUESTIONS
         public const int DEFAULT_PERSONAL_AMOUNT_QUESTIONS = 10;
         public const int MAX_PERSONAL_AMOUNT_QUESTIONS = 50;
         public const int MIN_PERSONAL_AMOUNT_QUESTIONS = 3;
+        #endregion
 
+        #region PERSOMAL TEST MAX WRONGS
+        public const int DEFAULT_PERSONAL_TEST_WRONGS = 2;
+        public const int MAX_PERSONA_TEST_WRONGS = 50;
+        public const int MIN_PERSONAL_TEST_WRONGS = 0;
+        #endregion
+
+        #region TEST IMAGE SIZES
         public const int DEFAULT_IMAGE_WIDTH = 200;
         public const int MAX_IMAGE_WIDTH = 500;
         public const int MIN_IMAGE_WIDTH = 100;
@@ -31,17 +54,24 @@ namespace Data_Layer
         public const int DEFAULT_IMAGE_HEIGHT = 200;
         public const int MAX_IMAGE_HEIGHT = 500;
         public const int MIN_IMAGE_HEIGHT = 100;
+        #endregion
 
-        public const bool DEFAULT_SHOW_RIGHT_ANSWERS = true;
-
+        #region TEST MODS
         public const string GROUP_MODE = "Групповой режим";
         public const string PERSONAL_MODE = "Персональный режим";
         public const string DEFAULT_SELECTED_MODE = GROUP_MODE;
+        #endregion
 
+        #region DATABASE FILE NAMES
         public const string DATA_TEST_FILE_NAME = "TestData.xml";
         public const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
         #endregion
 
+        #region TEST RESULTS
+        public const string TEST_TIME_OUT = "Истекло время выполнения";
+        public const string TEST_SECCSESSFUL = "Тест успешно окончен";
+        public const string TEST_UNSECCSESSFUL = "Тест не пройден";
+        #endregion
 
         #region Instance
         private static Settings instance;
@@ -55,6 +85,9 @@ namespace Data_Layer
             if ( inst == null ) inst = new Settings();
             instance = inst;
         }
+        #endregion
+
+
         #endregion
 
 
@@ -82,16 +115,6 @@ namespace Data_Layer
                 {
                     _groupTimeToNextQuestion = value;
                 }
-            }
-        }
-
-        private bool _showRightAnswer = DEFAULT_SHOW_RIGHT_ANSWERS;
-        public bool ShowRightAnswer
-        {
-            get => _showRightAnswer;
-            set
-            {
-                _showRightAnswer = value;
             }
         }
 
@@ -143,6 +166,32 @@ namespace Data_Layer
                 if(value <= MAX_IMAGE_HEIGHT && value >= MIN_IMAGE_HEIGHT )
                 {
                     _imageHeight = value;
+                }
+            }
+        }
+
+        private double _timeToTestEnd = DEFAULT_PERSONAL_TIME_TO_TEST_END;
+        public double TimeToTestEnd
+        {
+            get => _timeToTestEnd;
+            set
+            {
+                if(value <= MAX_PERSONAL_TIME_TO_TEST_END && value >= MIN_PERSONAL_TIME_TEST_END )
+                {
+                    _timeToTestEnd = value;
+                }
+            }
+        }
+
+        private int _maxTestWrongs = DEFAULT_PERSONAL_TEST_WRONGS;
+        public int MaxTestWrongs
+        {
+            get => _maxTestWrongs;
+            set
+            {
+                if(value <= MAX_PERSONA_TEST_WRONGS && value >= MIN_PERSONAL_TEST_WRONGS )
+                {
+                    _maxTestWrongs = value;
                 }
             }
         }

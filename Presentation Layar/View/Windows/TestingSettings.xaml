@@ -31,9 +31,6 @@
                     <TextBlock Text="Время до перехода:"
                            Style="{StaticResource LittleText}"
                            Margin="6"/>
-                    <CheckBox Content="Показывать варианты ответа: "
-                              Style="{StaticResource CheckBox}"
-                              IsChecked="{Binding ShowRightAnswer}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBox Text="{Binding GroupAmountQuestions}"
@@ -54,17 +51,23 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="Время на ответ:"
-                               Style="{StaticResource LittleText}"/>
                     <TextBlock Text="Количество вопросов:"
+                               Style="{StaticResource LittleText}"/>
+                    <TextBlock Text="Время на прохождение:"
+                               Style="{StaticResource LittleText}"/>
+                    <TextBlock Text="Допустимо ошибок:"
                                Style="{StaticResource LittleText}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <TextBox Text="{Binding PersonalTimeToAnswer}"
+                    <TextBox Text="{Binding PersonalAmountQuestions}"
                              Style="{StaticResource LittleTextBox}"
                              HorizontalContentAlignment="Center"
                              MaxLength="2"/>
-                    <TextBox Text="{Binding PersonalAmountQuestions}"
+                    <TextBox Text="{Binding PersonalTestTime}"
+                             Style="{StaticResource LittleTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="2"/>
+                    <TextBox Text="{Binding MaxWrongs}"
                              Style="{StaticResource LittleTextBox}"
                              HorizontalContentAlignment="Center"
                              MaxLength="2"/>

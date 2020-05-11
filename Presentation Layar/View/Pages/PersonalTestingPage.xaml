@@ -34,10 +34,11 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
-                <TextBlock Text="{Binding TimerTime}"
+                <TextBlock DataContext="{Binding Statistic}"
+                           Text="{Binding CurrentTime}"
                            Style="{StaticResource LittleText}"
                            DockPanel.Dock="Right"/>
-                <TextBlock Text="Время на ответ: "
+                <TextBlock Text="Осталось времени: "
                            Style="{StaticResource LittleText}"
                            DockPanel.Dock="Right"/>
                 <TextBlock Text="Вопрос: "

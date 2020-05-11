@@ -23,8 +23,9 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <StackPanel >
-                <TextBlock Text="Результаты теста"
-                       Style="{StaticResource BigText_Center}"/>
+                <TextBlock DataContext="{Binding Information}"
+                           Text="{Binding TestResult}"
+                           Style="{StaticResource BigText_Center}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>

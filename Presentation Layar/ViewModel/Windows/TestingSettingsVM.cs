@@ -21,11 +21,12 @@ namespace Presentation_Layar.ViewModel.Windows
             Error = new ErrorMessageVM();
             GroupAmountQuestions = _settings.GroupAmountQuestions;
             GroupTimeToNextQuestion = _settings.GroupTimeToNextQuestion;
-            ShowRightAnswer = _settings.ShowRightAnswer;
             PersonalAmountQuestions = _settings.PersonalAmountQuestions;
             PersonalTimeToAnswer = _settings.PersonalTimeToAnswer;
             ImageHeight = _settings.ImageHeight;
             ImageWidth = _settings.ImageWidht;
+            MaxWrongs = _settings.MaxTestWrongs;
+            PersonalTestTime = _settings.TimeToTestEnd;
         }
         #endregion
 
@@ -85,6 +86,30 @@ namespace Presentation_Layar.ViewModel.Windows
                 else Error.Show("Количество вопросов должно быть в диапазоне от " + Settings.MIN_PERSONAL_AMOUNT_QUESTIONS + " до " + Settings.MAX_PERSONAL_AMOUNT_QUESTIONS);
             }
         }
+
+        private double _personalTestTime;
+        public double PersonalTestTime
+        {
+            get => _personalTestTime;
+            set
+            {
+                Error.Hide();
+                if (value <= Settings.MAX_PERSONAL_TIME_TO_TEST_END && value >= Settings.MIN_PERSONAL_TIME_TEST_END ) _personalTestTime = value;
+                else Error.Show("Время должно быть в диапазоне от " + Settings.MIN_PERSONAL_TIME_TEST_END + " сек. до " + Settings.MAX_PERSONAL_TIME_TO_TEST_END + " сек.");
+            }
+        }
+
+        private int _maxWrongs;
+        public int MaxWrongs
+        {
+            get => _maxWrongs;
+            set
+            {
+                Error.Hide();
+                if ( _maxWrongs <= Settings.MAX_PERSONA_TEST_WRONGS && _maxWrongs >= Settings.MIN_PERSONAL_TEST_WRONGS ) _maxWrongs = value;
+                else Error.Show("Количество ошибок должно быть в диапозоне от " + Settings.MIN_PERSONAL_TEST_WRONGS + " до " + Settings.MAX_PERSONA_TEST_WRONGS);
+            }
+        }
         #endregion
 
         #region General Settings
@@ -121,11 +146,12 @@ namespace Presentation_Layar.ViewModel.Windows
         {
             _settings.GroupAmountQuestions = GroupAmountQuestions;
             _settings.GroupTimeToNextQuestion = GroupTimeToNextQuestion;
-            _settings.ShowRightAnswer = ShowRightAnswer;
             _settings.PersonalTimeToAnswer = PersonalTimeToAnswer;
             _settings.PersonalAmountQuestions = PersonalAmountQuestions;
             _settings.ImageHeight = ImageHeight;
             _settings.ImageWidht = ImageWidth;
+            _settings.TimeToTestEnd = PersonalTestTime;
+            _settings.MaxTestWrongs = MaxWrongs;
             Window.Hide();
         }));
 

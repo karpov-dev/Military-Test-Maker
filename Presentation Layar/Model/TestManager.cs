@@ -6,20 +6,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace Presentation_Layar.Model
 {
     class TestManager : ViewModelBase
     {
         #region Variables
+        private int _currentTestIndex = 0;
+        private string _mode;
+
         private Test _test;
+        private Settings _settings;
         private DataService _dataService;
+        private DispatcherTimer _timerToTestEnd;
         private TestSessionInformation _statistic;
         private List<Question> _questions;
         private List<ViewModelBase> _tests;
-        private int _currentTestIndex = 0;
-        private Settings _settings;
-        private string _mode;
         #endregion
 
 
@@ -40,6 +43,11 @@ namespace Presentation_Layar.Model
             _settings = Settings.GetInstance();
             _tests = new List<ViewModelBase>();
             _statistic = new TestSessionInformation();
+            _statistic.CurrentTime = _settings.TimeToTestEnd;
+
+            _timerToTestEnd = new DispatcherTimer();
+            _timerToTestEnd.Tick += TimerToTestEnd_Tick;
+            _timerToTestEnd.Interval = new TimeSpan(0, 0, 0, 0, 100);
 
             switch ( mode )
             {
@@ -55,18 +63,21 @@ namespace Presentation_Layar.Model
         {
             if (_currentTestIndex >= _tests.Count )
             {
-                switch ( _mode )
-                {
-                    case Settings.GROUP_MODE: Root.CurrentVM = new GroupTestingPageResultVM(Root, Owner); break;
-                    case Settings.PERSONAL_MODE: Root.CurrentVM = new PersonalTestingPageResult(Root, Owner, _statistic); break;
-                }
-                
+                _statistic.TestResult = Settings.TEST_SECCSESSFUL;
+                GoToResultPage();
                 return;
             }
-
-            _statistic.CurrentQuestion = _currentTestIndex + 1;
-            Root.CurrentVM = _tests[_currentTestIndex];
-            _currentTestIndex++;
+            if(_settings.MaxTestWrongs != 0 && _statistic.WrongQuestions >= _settings.MaxTestWrongs )
+            {
+                _statistic.TestResult = Settings.TEST_UNSECCSESSFUL;
+                GoToResultPage();
+            }
+            else
+            {
+                _statistic.CurrentQuestion = _currentTestIndex + 1;
+                Root.CurrentVM = _tests[_currentTestIndex];
+                _currentTestIndex++;
+            }
         }
 
         private void GroupMode()
@@ -81,6 +92,7 @@ namespace Presentation_Layar.Model
         }
         private void PersonalMode()
         {
+            _timerToTestEnd.Start();
             _statistic.AmountQuestions = _settings.PersonalAmountQuestions;
             _questions = _dataService.GetRandomQuestionsByTest(_test, _settings.PersonalAmountQuestions);
             for(int i = 0; i < _questions.Count; i++ )
@@ -88,6 +100,25 @@ namespace Presentation_Layar.Model
                 _tests.Add(new PersonalTestingVM(Root, Owner, _questions[i], _statistic, this));
             }
             NextTest();
+        }
+        private void TimerToTestEnd_Tick(object sender, EventArgs e)
+        {
+            _statistic.CurrentTime -= 0.1;
+            _statistic.TotalTime += 0.1;
+            if ( _statistic.CurrentTime < 0 )
+            {
+                _statistic.TestResult = Settings.TEST_TIME_OUT;
+                GoToResultPage();
+            }
+        }
+        private void GoToResultPage()
+        {
+            _timerToTestEnd.Stop();
+            switch ( _mode )
+            {
+                case Settings.GROUP_MODE: Root.CurrentVM = new GroupTestingPageResultVM(Root, Owner); break;
+                case Settings.PERSONAL_MODE: Root.CurrentVM = new PersonalTestingPageResult(Root, Owner, _statistic); break;
+            }
         }
         #endregion
     }

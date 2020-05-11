@@ -61,5 +61,27 @@ namespace Presentation_Layar.Model
                 OnPropertyChanged();
             }
         }
+
+        private double _currentTime;
+        public double CurrentTime
+        {
+            get => _currentTime;
+            set
+            {
+                _currentTime = Math.Round(value, 2);
+                OnPropertyChanged();
+            }
+        }
+
+        private string _testResult;
+        public string TestResult
+        {
+            get => _testResult;
+            set
+            {
+                _testResult = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
