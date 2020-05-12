@@ -20,7 +20,7 @@ namespace Presentation_Layar.ViewModel.Pages
         private DispatcherTimer _timerToNextQuestion;
         private Question _question;
         private Settings _settings;
-        private double _timeToNextQuestion = 2;
+        private double _timeToNextQuestion;
         #endregion
 
         #region Properties
@@ -117,6 +117,7 @@ namespace Presentation_Layar.ViewModel.Pages
             _question = question;
             Statistic = statistic;
             _manager = manager;
+            _timeToNextQuestion = (int)_settings.PersonalTimeToNextQuestion;
 
             InitializationObjects();
             InitializationAnswers();
@@ -135,6 +136,7 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _checkAnswer;
         public RelayCommand CheckAnswer => _checkAnswer ?? ( _checkAnswer = new RelayCommand(obj =>
         {
+            _manager.StopTimer();
             AnswerViewVM selectedAnswer = (AnswerViewVM) obj;
             if ( selectedAnswer.Text != _question.RightAnswer ) 
             {
@@ -151,16 +153,6 @@ namespace Presentation_Layar.ViewModel.Pages
         #endregion
 
         #region Methods 
-        private void TimerToAnswer_Tick(object sender, EventArgs e)
-        {
-            TimerTime -= 0.1;
-            if ( TimerTime < 0 )
-            {
-                TimerTime = 0;
-                Error.Show("Время на ответ истекло!");
-                HideWrongAnswers();
-            }
-        }
         private void HideWrongAnswers()
         {
             //костыль всея руси
@@ -175,10 +167,11 @@ namespace Presentation_Layar.ViewModel.Pages
 
         private void TimerToNextQuestion_Tick(object sender, EventArgs e)
         {
-            _timeToNextQuestion -= 0.1;
+            _timeToNextQuestion -= 0.5;
             if(_timeToNextQuestion < 0 )
             {
                 _timerToNextQuestion.Stop();
+                _manager.StartTimer();
                 _manager.NextTest();
             }
         }
@@ -194,7 +187,7 @@ namespace Presentation_Layar.ViewModel.Pages
         {
             Error = new ErrorMessageVM();
             Info = new InfoMessageVM();
-            TimerTime = _settings.PersonalTimeToAnswer;
+            TimerTime = _settings.PersonalTimeToNextQuestion;
             AnswerViews = new ObservableCollection<AnswerViewVM>();
             ButtonsEnabled = true;
             _timerToNextQuestion = new DispatcherTimer();

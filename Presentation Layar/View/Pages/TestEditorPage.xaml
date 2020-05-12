@@ -31,6 +31,7 @@
                             Command="{Binding GoToTesting}"/>
                     <ComboBox ItemsSource="{Binding TestModes}"
                               SelectedItem="{Binding SelectedTestMode}"
+                              Background="{StaticResource ButtonColor}"
                               Style="{StaticResource NormalComboBox}"/>
                     <cmp:InfoMessage DataContext="{Binding Info}"/>
                     <cmp:ErrorMessage DataContext="{Binding Error}"/>

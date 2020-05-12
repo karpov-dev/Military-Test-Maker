@@ -22,10 +22,11 @@
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <StackPanel >
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock DataContext="{Binding Information}"
                            Text="{Binding TestResult}"
-                           Style="{StaticResource BigText_Center}"/>
+                           Style="{StaticResource BigText_Center}"
+                           Foreground="Black"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -33,27 +34,35 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Количество вопросов: "
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                         <TextBlock Text="Правильных: "
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                         <TextBlock Text="Неправильных: "
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                         <TextBlock Text="Общее время: "
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <TextBlock DataContext="{Binding Information}"
                                    Text="{Binding AmountQuestions}"
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                         <TextBlock DataContext="{Binding Information}"
                                    Text="{Binding RightQuestions}"
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                         <TextBlock DataContext="{Binding Information}"
                                    Text="{Binding WrongQuestions}"
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                         <TextBlock DataContext="{Binding Information}"
                                    Text="{Binding TotalTime}"
-                                   Style="{StaticResource NormalText}"/>
+                                   Style="{StaticResource NormalText}"
+                                   Foreground="Black"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

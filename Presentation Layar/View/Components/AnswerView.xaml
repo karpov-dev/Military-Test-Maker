@@ -11,11 +11,17 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Horizontal">
+            <TextBlock Text="{Binding Number}"
+                   Style="{StaticResource BigText}"/>
+            <TextBlock Text=")"
+                       Style="{StaticResource BigText}"/>
+        </StackPanel>
         <TextBlock Text="{Binding Number}"
-                   Style="{StaticResource NormalText}"/>
+                   Style="{StaticResource BigText}"/>
         <StackPanel Grid.Column="1">
             <TextBlock Text="{Binding Text}"
-                       Style="{StaticResource NormalText}"
+                       Style="{StaticResource BigText}"
                        Visibility="{Binding TextBlockVisibility}"/>
             <Image Source="{Binding Text}"
                    Width="{Binding ImageWidth}"

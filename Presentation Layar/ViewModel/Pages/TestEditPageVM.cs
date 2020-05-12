@@ -51,7 +51,7 @@ namespace Presentation_Layar.ViewModel.Pages
             }
         }
         public Test Test { get; set; }
-        public ObservableCollection<Question> Questions => new ObservableCollection<Question>(Test.Questions);
+        //public ObservableCollection<Question> Questions => new ObservableCollection<Question>(Test.Questions);
         public InputTextVM Title { get; set; }
         public InputTextVM Author { get; set; }
         public InputTextVM Description { get; set; }
@@ -80,40 +80,10 @@ namespace Presentation_Layar.ViewModel.Pages
                 Test.Title = Title.Text;
                 Test.Description = Description.Text;
                 Test.Author = Author.Text;
-                Test.Questions = new List<Question>(Questions);
+                //Test.Questions = new List<Question>(Questions);
                 _dataService.UpsertTest(_oldVersion, Test);
                 Root.CurrentVM = Owner;
             }
-        }));
-
-        private RelayCommand _addQuestion;
-        public RelayCommand AddQuestion => _addQuestion ?? ( _addQuestion = new RelayCommand(obj =>
-        {
-            Root.CurrentVM = new QuestionEditorVM(Root, this, Test, null);
-        }));
-
-        private RelayCommand _editQuestion;
-        public RelayCommand EditQuestion => _editQuestion ?? ( _editQuestion = new RelayCommand(obj =>
-        {
-            if(SelectedQuestion == null )
-            {
-                Error.Show("Выберите вопрос для редактирования");
-                return;
-            }
-            Root.CurrentVM = new QuestionEditorVM(Root, this, Test, SelectedQuestion);
-        }));
-
-        private RelayCommand _deleteQuestion;
-        public RelayCommand DeleteQuestion => _deleteQuestion ?? ( _deleteQuestion = new RelayCommand(obj =>
-        {
-            if ( SelectedQuestion == null )
-            {
-                Error.Show("Выберите вопрос для удаления");
-                return;
-            }
-            Test.Questions.Remove(SelectedQuestion);
-            Info.Show("Вопрос успешно удалён");
-            UpdateComponent();
         }));
 
         private RelayCommand _cancalCommand;
@@ -144,6 +114,19 @@ namespace Presentation_Layar.ViewModel.Pages
                 authorSaveResult = Author.CanSave(),
                 descriptionSaveResult = Description.CanSave(),
                 amountTestsCanSave = Test.Questions.Count > 2;
+            foreach(Question question in Test.Questions )
+            {
+                if ( string.IsNullOrWhiteSpace(question.Queston) || string.IsNullOrWhiteSpace(question.RightAnswer) )
+                {
+                    Error.Show("Заполните полностью вопросы");
+                    return false;
+                }
+                foreach(string answer in question.Answers )
+                {
+                    if ( string.IsNullOrWhiteSpace(answer) ) return false;
+                    Error.Show("Вопрос " + question.Queston + " содержит незаполненные поля ответов");
+                }
+            }
             if ( !amountTestsCanSave ) Error.Show("Тест должен содержать как минимум три вопроса");
             if ( titleSaveResult && authorSaveResult && descriptionSaveResult && amountTestsCanSave ) return true;
             return false;

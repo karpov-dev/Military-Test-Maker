@@ -45,8 +45,15 @@
         </DataTemplate>
         
     </Window.Resources>
-    
-    <Grid Background="{StaticResource ApplicationBackground}">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush>
+                <ImageBrush.ImageSource>
+                    <BitmapImage UriSource="pack://application:,,,/Resources/MainBackground.jpg"/>
+                </ImageBrush.ImageSource>
+            </ImageBrush>
+        </Grid.Background>
         <ContentControl Content="{Binding CurrentVM}"/>
     </Grid>
 </Window>

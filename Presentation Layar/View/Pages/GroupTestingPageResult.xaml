@@ -23,7 +23,8 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Тест успешно окончен"
-                       Style="{StaticResource BigText_Center}"/>
+                       Style="{StaticResource BigText_Center}"
+                       Foreground="Black"/>
             <Button Content="Вернуться в меню"
                     Grid.Row="1"
                     Style="{StaticResource Button}"

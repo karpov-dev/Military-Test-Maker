@@ -22,7 +22,7 @@ namespace Presentation_Layar.ViewModel.Windows
             GroupAmountQuestions = _settings.GroupAmountQuestions;
             GroupTimeToNextQuestion = _settings.GroupTimeToNextQuestion;
             PersonalAmountQuestions = _settings.PersonalAmountQuestions;
-            PersonalTimeToAnswer = _settings.PersonalTimeToAnswer;
+            PersonalTimeToNextQuestion = _settings.PersonalTimeToNextQuestion;
             ImageHeight = _settings.ImageHeight;
             ImageWidth = _settings.ImageWidht;
             MaxWrongs = _settings.MaxTestWrongs;
@@ -63,14 +63,14 @@ namespace Presentation_Layar.ViewModel.Windows
         #endregion
 
         #region Personal Settings
-        private double _personalTimeToAnswer;
-        public double PersonalTimeToAnswer
+        private double _personalTimeToNextQuestion;
+        public double PersonalTimeToNextQuestion
         {
-            get => _personalTimeToAnswer;
+            get => _personalTimeToNextQuestion;
             set
             {
                 Error.Hide();
-                if ( value <= Settings.MAX_PERSONAL_TIME_TO_NEXT_QURSTION && value >= Settings.MIN_GROUP_TIME_TO_NEXT_QUESTION ) _personalTimeToAnswer = value;
+                if ( value <= Settings.MAX_PERSONAL_TIME_TO_NEXT_QURSTION && value >= Settings.MIN_GROUP_TIME_TO_NEXT_QUESTION ) _personalTimeToNextQuestion = value;
                 else Error.Show("Время на ответ должно быть в диапозоне от " + Settings.MIN_GROUP_TIME_TO_NEXT_QUESTION + " до " + Settings.MAX_PERSONAL_TIME_TO_NEXT_QURSTION);
             }
         }
@@ -146,7 +146,7 @@ namespace Presentation_Layar.ViewModel.Windows
         {
             _settings.GroupAmountQuestions = GroupAmountQuestions;
             _settings.GroupTimeToNextQuestion = GroupTimeToNextQuestion;
-            _settings.PersonalTimeToAnswer = PersonalTimeToAnswer;
+            _settings.PersonalTimeToNextQuestion = PersonalTimeToNextQuestion;
             _settings.PersonalAmountQuestions = PersonalAmountQuestions;
             _settings.ImageHeight = ImageHeight;
             _settings.ImageWidht = ImageWidth;

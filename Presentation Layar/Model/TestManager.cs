@@ -43,11 +43,11 @@ namespace Presentation_Layar.Model
             _settings = Settings.GetInstance();
             _tests = new List<ViewModelBase>();
             _statistic = new TestSessionInformation();
-            _statistic.CurrentTime = _settings.TimeToTestEnd;
+            _statistic.SetTestTime((int)_settings.TimeToTestEnd);
 
             _timerToTestEnd = new DispatcherTimer();
             _timerToTestEnd.Tick += TimerToTestEnd_Tick;
-            _timerToTestEnd.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerToTestEnd.Interval = new TimeSpan(0, 0, 0, 1);
 
             switch ( mode )
             {
@@ -79,6 +79,14 @@ namespace Presentation_Layar.Model
                 _currentTestIndex++;
             }
         }
+        public void StopTimer()
+        {
+            _timerToTestEnd.Stop();
+        }
+        public void StartTimer()
+        {
+            _timerToTestEnd.Start();
+        }
 
         private void GroupMode()
         {
@@ -103,13 +111,12 @@ namespace Presentation_Layar.Model
         }
         private void TimerToTestEnd_Tick(object sender, EventArgs e)
         {
-            _statistic.CurrentTime -= 0.1;
-            _statistic.TotalTime += 0.1;
-            if ( _statistic.CurrentTime < 0 )
+            _statistic.RemoveSecond();
+            if ( _statistic.CurrentMinute < 0)
             {
                 _statistic.TestResult = Settings.TEST_TIME_OUT;
                 GoToResultPage();
-            }
+            }  
         }
         private void GoToResultPage()
         {

@@ -3,14 +3,14 @@
                     xmlns:local="clr-namespace:Presentation_Layar.StyleDictionary">
 
 
-    <SolidColorBrush x:Key="ApplicationBackground" Color="#fff176"/>
+    <SolidColorBrush x:Key="ApplicationBackground" Color="AliceBlue"/>
 
     <SolidColorBrush x:Key="TextColor" Color="White"/>
     <SolidColorBrush x:Key="TipTextColor" Color="#424242"/>
     <SolidColorBrush x:Key="ErrorTextColor" Color="Red"/>
     <SolidColorBrush x:Key="InfoTextColor" Color="Blue"/>
 
-    <SolidColorBrush x:Key="ButtonColor" Color="#558b2f"/>
+    <SolidColorBrush x:Key="ButtonColor" Color="#4CAF50"/>
     <SolidColorBrush x:Key="ButtonColor_IsPressed" Color="#7cb342"/>
     <SolidColorBrush x:Key="ButtonColor_IsMouseOver" Color="#689f38"/>
     <SolidColorBrush x:Key="ButtonColor_IsNotEnabled" Color="#1b5e20"/>
@@ -24,6 +24,7 @@
     <Style x:Key="TextBlockBase" TargetType="TextBlock">
         <Setter Property="Margin" Value="5"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="Foreground" Value="Black"/>
     </Style>
 
     <Style x:Key="TextBoxBase" TargetType="TextBox">
@@ -112,7 +113,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderThickness="1">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="1" CornerRadius="10" >
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
                     </Border>
                 </ControlTemplate>
@@ -137,8 +138,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Background="{TemplateBinding Background}" BorderThickness="1">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+                    <Border Background="{TemplateBinding Background}" BorderThickness="1" CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

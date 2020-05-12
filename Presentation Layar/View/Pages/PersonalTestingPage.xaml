@@ -35,56 +35,77 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
                 <TextBlock DataContext="{Binding Statistic}"
-                           Text="{Binding CurrentTime}"
+                           Text="{Binding CurrentSecond}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Right"/>
+                           DockPanel.Dock="Right"
+                           Margin="0, 5, 10, 5"
+                           Foreground="Black"/>
+                <TextBlock DataContext="{Binding Statistic}"
+                           Text=":"
+                           Style="{StaticResource LittleText}"
+                           DockPanel.Dock="Right"
+                           Margin="0, 5, 0, 5"
+                           Foreground="Black"/>
+                <TextBlock DataContext="{Binding Statistic}"
+                           Text="{Binding CurrentMinute}"
+                           Style="{StaticResource LittleText}"
+                           DockPanel.Dock="Right"
+                           Margin="0, 5, 0, 5"
+                           Foreground="Black"/>
                 <TextBlock Text="Осталось времени: "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Right"/>
-                <TextBlock Text="Вопрос: "
-                           Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Right"
+                           Foreground="Black"/>
                 <TextBlock DataContext="{Binding Statistic}"
                            Text="{Binding CurrentQuestion}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
-                <TextBlock Text=" из "
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
+                <TextBlock Text=" \ "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
                 <TextBlock DataContext="{Binding Statistic}"
                            Text="{Binding AmountQuestions}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
                 <TextBlock Text=" Правильных: "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Green"/>
                 <TextBlock DataContext="{Binding Statistic}"
                            Text="{Binding RightQuestions}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Green"/>
                 <TextBlock Text=" Ошибок: "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Red"/>
                 <TextBlock DataContext="{Binding Statistic}"
                            Text="{Binding WrongQuestions}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Red"/>
             </DockPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" MaxHeight="100">
                 <DockPanel>
                     <TextBlock Text="Вопрос: "
-                               Style="{StaticResource NormalText}"
-                               DockPanel.Dock="Left"/>
+                               Style="{StaticResource BigText}"
+                               DockPanel.Dock="Left"
+                               Foreground="Black"/>
                     <TextBlock Text="{Binding Question}"
-                               Style="{StaticResource NormalText}"
-                               DockPanel.Dock="Left"/>
+                               Style="{StaticResource BigText}"
+                               DockPanel.Dock="Left"
+                               Foreground="Black"/>
                 </DockPanel>
             </ScrollViewer>
             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Hidden">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

@@ -8,7 +8,11 @@ namespace Data_Layer
     {
         #region Properies
         public string Queston { get; set; }
-        public string RightAnswer { get; set; }
+        public string RightAnswer 
+        { 
+            get; 
+            set; 
+        }
         public List<string> Answers { get; set; }
         #endregion
 

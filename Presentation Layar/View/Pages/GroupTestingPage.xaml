@@ -36,33 +36,41 @@
 
                 <TextBlock Text="{Binding TimerTime}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Right"/>
+                           DockPanel.Dock="Right"
+                           Foreground="Black"/>
                 <TextBlock Text="До перехода: "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Right"/>
+                           DockPanel.Dock="Right"
+                           Foreground="Black"/>
                 <TextBlock Text="Вопрос: "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
                 <TextBlock DataContext="{Binding Statistic}"
                            Text="{Binding CurrentQuestion}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
                 <TextBlock Text=" из "
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
                 <TextBlock DataContext="{Binding Statistic}"
                            Text="{Binding AmountQuestions}"
                            Style="{StaticResource LittleText}"
-                           DockPanel.Dock="Left"/>
+                           DockPanel.Dock="Left"
+                           Foreground="Black"/>
             </DockPanel>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden" MaxHeight="100">
                 <DockPanel>
                     <TextBlock Text="Вопрос: "
-                               Style="{StaticResource NormalText}"
-                               DockPanel.Dock="Left"/>
+                               Style="{StaticResource BigText}"
+                               DockPanel.Dock="Left"
+                               Foreground="Black"/>
                     <TextBlock Text="{Binding Question}"
-                               Style="{StaticResource NormalText}"
-                               DockPanel.Dock="Left"/>
+                               Style="{StaticResource BigText}"
+                               DockPanel.Dock="Left"
+                               Foreground="Black"/>
                 </DockPanel>
             </ScrollViewer>
             <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden">

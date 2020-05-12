@@ -25,18 +25,18 @@ namespace Data_Layer
         #region PERSONAL TEST TIME
         public const double DEFAULT_PERSONAL_TIME_TO_NEXT_QURSTION = 2;
         public const double MAX_PERSONAL_TIME_TO_NEXT_QURSTION = 60;
-        public const double MIN_PERSONAL_TIME_TO_NEXT_QURSTION = 0.1;
+        public const double MIN_PERSONAL_TIME_TO_NEXT_QURSTION = 1;
         #endregion
 
-        #region PERSONAL MAX TEST TIME
-        public const double DEFAULT_PERSONAL_TIME_TO_TEST_END = 180;
-        public const double MAX_PERSONAL_TIME_TO_TEST_END = 3600;
-        public const double MIN_PERSONAL_TIME_TEST_END = 10;
+        #region PERSONAL MAX TEST TIME MINUTES
+        public const double DEFAULT_PERSONAL_TIME_TO_TEST_END = 15;
+        public const double MAX_PERSONAL_TIME_TO_TEST_END = 180;
+        public const double MIN_PERSONAL_TIME_TEST_END = 1;
         #endregion
 
         #region PERSONAL AMOUNT QUESTIONS
         public const int DEFAULT_PERSONAL_AMOUNT_QUESTIONS = 10;
-        public const int MAX_PERSONAL_AMOUNT_QUESTIONS = 50;
+        public const int MAX_PERSONAL_AMOUNT_QUESTIONS = 200;
         public const int MIN_PERSONAL_AMOUNT_QUESTIONS = 3;
         #endregion
 
@@ -62,34 +62,18 @@ namespace Data_Layer
         public const string DEFAULT_SELECTED_MODE = GROUP_MODE;
         #endregion
 
-        #region DATABASE FILE NAMES
-        public const string DATA_TEST_FILE_NAME = "TestData.xml";
-        public const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
-        #endregion
-
         #region TEST RESULTS
         public const string TEST_TIME_OUT = "Истекло время выполнения";
         public const string TEST_SECCSESSFUL = "Тест успешно окончен";
         public const string TEST_UNSECCSESSFUL = "Тест не пройден";
         #endregion
 
-        #region Instance
-        private static Settings instance;
-        public static Settings GetInstance()
-        {
-            if ( instance == null ) instance = new Settings();
-            return instance;
-        }
-        public static void SetInstance(Settings inst)
-        {
-            if ( inst == null ) inst = new Settings();
-            instance = inst;
-        }
+        #region DATABASE FILE NAMES
+        public const string DATA_TEST_FILE_NAME = "TestData.xml";
+        public const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
         #endregion
 
-
         #endregion
-
 
         #region Properties
         private int _groupAmountQuestions = DEFAULT_GROUP_AMOUNT_QUESTIONS;
@@ -118,15 +102,15 @@ namespace Data_Layer
             }
         }
 
-        private double _personalTimeToAnswer = DEFAULT_PERSONAL_TIME_TO_NEXT_QURSTION;
-        public double PersonalTimeToAnswer
+        private double _personalTimeToNextQuestion = DEFAULT_PERSONAL_TIME_TO_NEXT_QURSTION;
+        public double PersonalTimeToNextQuestion
         {
-            get => _personalTimeToAnswer;
+            get => _personalTimeToNextQuestion;
             set
             {
                 if(value <= MAX_PERSONAL_TIME_TO_NEXT_QURSTION && value >= MIN_PERSONAL_TIME_TO_NEXT_QURSTION )
                 {
-                    _personalTimeToAnswer = value;
+                    _personalTimeToNextQuestion = value;
                 }
             }
         }
@@ -197,7 +181,6 @@ namespace Data_Layer
         }
         #endregion
 
-
         #region Methods
         public int GetAmountQuestions(string testingMode)
         {
@@ -208,6 +191,18 @@ namespace Data_Layer
                 case PERSONAL_MODE: return PersonalAmountQuestions;
             }
             return 0;
+        }
+
+        private static Settings instance;
+        public static Settings GetInstance()
+        {
+            if ( instance == null ) instance = new Settings();
+            return instance;
+        }
+        public static void SetInstance(Settings inst)
+        {
+            if ( inst == null ) inst = new Settings();
+            instance = inst;
         }
         #endregion
     }

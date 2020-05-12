@@ -30,17 +30,6 @@
                 <TextBlock Text="Описание"
                            Style="{StaticResource NormalText_Center}"/>
                 <cmp:InputText DataContext="{Binding Description}"/>
-                <Button Content="Добавить вопрос"
-                        Style="{StaticResource Button}"
-                        Command="{Binding AddQuestion}"/>
-                <Button Content="Редактировать вопрос"
-                        Style="{StaticResource Button}"
-                        Command="{Binding EditQuestion}"
-                        IsEnabled="{Binding ButtonsEnabled}"/>
-                <Button Content="Удалить вопрос"
-                        Style="{StaticResource RedButton}"
-                        Command="{Binding DeleteQuestion}"
-                        IsEnabled="{Binding ButtonsEnabled}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -57,19 +46,37 @@
                 <cmp:ErrorMessage DataContext="{Binding Error}"/>
                 <cmp:InfoMessage DataContext="{Binding Info}"/>
             </StackPanel>
-            <ListView ItemsSource="{Binding Questions}"
+            <DataGrid ItemsSource="{Binding Test.Questions}"
                       SelectedItem="{Binding SelectedQuestion}"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="DarkGray"
                       Grid.Column="1"
                       Margin="5">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Вопрос"
-                                        DisplayMemberBinding="{Binding Queston}"/>
-                        <GridViewColumn Header="Ответ"
-                                        DisplayMemberBinding="{Binding RightAnswer}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Вопрос" Binding="{Binding Queston}" MaxWidth="300"/>
+                    <DataGridTemplateColumn  Header="Правильный ответ" MaxWidth="300">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <ComboBox ItemsSource="{Binding Answers}" SelectedItem="{Binding RightAnswer, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <StackPanel MaxWidth="600">
+                            <TextBlock Text="Варианты ответа"/>
+                            <TextBox Text="{Binding Answers[0], UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding Answers[1], UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding Answers[2], UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Text="{Binding Answers[3], UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
+            </DataGrid>
+            
         </Grid>
     </Grid>
 </UserControl>
