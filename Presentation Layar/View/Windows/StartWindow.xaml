@@ -28,10 +28,6 @@
             <pageView:TestEditPage/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type page:QuestionEditorVM}">
-            <pageView:QuestionEditor/>
-        </DataTemplate>
-
         <DataTemplate DataType="{x:Type page:GroupTestingPageResultVM}">
             <pageView:GroupTestingPageResult/>
         </DataTemplate>
@@ -42,6 +38,10 @@
 
         <DataTemplate DataType="{x:Type page:PersonalTestingPageResult}">
             <pageView:PersonalTestingPageResult/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type page:QuestionEditorVM}">
+            <pageView:QuestionEditor/>
         </DataTemplate>
         
     </Window.Resources>

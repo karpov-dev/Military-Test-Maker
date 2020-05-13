@@ -1,4 +1,5 @@
-﻿using Data_Layer;
+﻿
+using Data_Layer;
 using Presentation_Layar.Service;
 using Presentation_Layar.ViewModel.BaseNavigation;
 using Presentation_Layar.ViewModel.Components;
@@ -61,7 +62,7 @@ namespace Presentation_Layar.ViewModel.Pages
         public RelayCommand CancelCommand => _cancelCommand ?? ( _cancelCommand = new RelayCommand(obj =>
         {
             Root.CurrentVM = Owner;
-        }));
+        }) );
 
         private RelayCommand _addAndCancel;
         public RelayCommand AddAndCancel => _addAndCancel ?? ( _addAndCancel = new RelayCommand(obj =>
@@ -72,7 +73,7 @@ namespace Presentation_Layar.ViewModel.Pages
                 Test.Questions.Add(Question);
                 Root.CurrentVM = Owner;
             }
-        }));
+        }) );
 
         private RelayCommand _addAndNew;
         public RelayCommand AddAndNew => _addAndNew ?? ( _addAndNew = new RelayCommand(obj =>
@@ -83,7 +84,7 @@ namespace Presentation_Layar.ViewModel.Pages
                 Test.Questions.Add(Question);
                 Root.CurrentVM = new QuestionEditorVM(Root, Owner, Test, null);
             }
-        }));
+        }) );
         #endregion
 
         #region Methods
@@ -91,15 +92,16 @@ namespace Presentation_Layar.ViewModel.Pages
         {
             List<bool> canSaveList = new List<bool>();
             canSaveList.Add(QuestionInpit.CanSave());
-            foreach(InputAnswerVM answerVM in _answers )
+            foreach ( InputAnswerVM answerVM in _answers )
             {
                 canSaveList.Add(answerVM.CanSave());
             }
-            foreach(bool canSave in canSaveList )
+            foreach ( bool canSave in canSaveList )
             {
                 if ( !canSave ) return false;
             }
-            if ( string.IsNullOrWhiteSpace(GetRightAnswer())){
+            if ( string.IsNullOrWhiteSpace(GetRightAnswer()) )
+            {
                 Error.Show("Выберите правильный ответ");
                 return false;
             }
@@ -109,12 +111,12 @@ namespace Presentation_Layar.ViewModel.Pages
         {
             Question.Queston = QuestionInpit.Text;
             Question.Answers = new List<string>();
-            foreach(InputAnswerVM answerVM in _answers ) Question.Answers.Add(answerVM.Text);
+            foreach ( InputAnswerVM answerVM in _answers ) Question.Answers.Add(answerVM.Text);
             Question.RightAnswer = GetRightAnswer();
         }
         private string GetRightAnswer()
         {
-            foreach(InputAnswerVM answerVM in _answers )
+            foreach ( InputAnswerVM answerVM in _answers )
                 if ( answerVM.IsCheceked ) return answerVM.Text;
             return null;
         }

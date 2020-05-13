@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cmpVM="clr-namespace:Presentation_Layar.ViewModel.Components"
              xmlns:local="clr-namespace:Presentation_Layar.View.Pages"
              xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
+             xmlns:customCmp="clr-namespace:Presentation_Layar.CustomComponents"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid Background="{StaticResource ApplicationBackground}">
@@ -30,6 +32,17 @@
                 <TextBlock Text="Описание"
                            Style="{StaticResource NormalText_Center}"/>
                 <cmp:InputText DataContext="{Binding Description}"/>
+                <Button Content="Добавить вопрос"
+                        Style="{StaticResource Button}"
+                        Command="{Binding AddQuestion}"/>
+                <Button Content="Редактировать вопрос"
+                        Style="{StaticResource Button}"
+                        Command="{Binding EditQuestion}"
+                        IsEnabled="{Binding ButtonsEnabled}"/>
+                <Button Content="Удалить вопрос"
+                        Style="{StaticResource RedButton}"
+                        Command="{Binding DeleteQuestion}"
+                        IsEnabled="{Binding ButtonsEnabled}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -46,37 +59,19 @@
                 <cmp:ErrorMessage DataContext="{Binding Error}"/>
                 <cmp:InfoMessage DataContext="{Binding Info}"/>
             </StackPanel>
-            <DataGrid ItemsSource="{Binding Test.Questions}"
+            <ListView ItemsSource="{Binding Questions}"
                       SelectedItem="{Binding SelectedQuestion}"
-                      AutoGenerateColumns="False"
-                      HorizontalGridLinesBrush="DarkGray"
                       Grid.Column="1"
                       Margin="5">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Вопрос" Binding="{Binding Queston}" MaxWidth="300"/>
-                    <DataGridTemplateColumn  Header="Правильный ответ" MaxWidth="300">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <ComboBox ItemsSource="{Binding Answers}" SelectedItem="{Binding RightAnswer, UpdateSourceTrigger=PropertyChanged}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        <StackPanel MaxWidth="600">
-                            <TextBlock Text="Варианты ответа"/>
-                            <TextBox Text="{Binding Answers[0], UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox Text="{Binding Answers[1], UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox Text="{Binding Answers[2], UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox Text="{Binding Answers[3], UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
-            </DataGrid>
-            
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Вопрос"
+                                        DisplayMemberBinding="{Binding Queston}"/>
+                        <GridViewColumn Header="Ответ"
+                                        DisplayMemberBinding="{Binding RightAnswer}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </UserControl>

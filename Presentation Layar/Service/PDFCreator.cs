@@ -1,6 +1,8 @@
 ﻿using Data_Layer;
+using Presentation_Layar.Model;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -31,10 +33,14 @@ namespace Presentation_Layar.Service
 
         private const int SYMBOLS_IN_LINE = 90;
         private const int PAGE_WIDTH = 450;
+
+        private const int PDF_IMAGE_WIDTH = 100;
+        private const int PDF_IMAGE_HEIGHT = 100;
+        private const int PDF_IMAGE_MARGIN = 5;
         #endregion
 
         #region Properties
-        private static int _titleFontSize = 15;
+        private static int _titleFontSize = 14;
         public static int TitleFontSize
         {
             get => _titleFontSize;
@@ -60,7 +66,7 @@ namespace Presentation_Layar.Service
             }
         }
 
-        private static int _mainFontSize = 10;
+        private static int _mainFontSize = 9;
         public static int MainFontSize
         {
             get => _mainFontSize;
@@ -73,7 +79,7 @@ namespace Presentation_Layar.Service
             }
         }
 
-        private static int _smallFontSize = 8;
+        private static int _smallFontSize = 6;
         public static int SmallFontSize
         {
             get => _smallFontSize;
@@ -171,12 +177,21 @@ namespace Presentation_Layar.Service
             PdfFont SmallFont = new PdfTrueTypeFont(new Font("Arial Unicode MS", SmallFontSize), true);
             #endregion
 
+            PdfStringFormat format = new PdfStringFormat();
+            format.Alignment = PdfTextAlignment.Left;
+            format.LineAlignment = PdfVerticalAlignment.Middle;
+            format.CharacterSpacing = 1;
+            format.LineSpacing = LineSpacing;
+            format.ParagraphIndent = 2.1f;
+            format.WordSpacing = WordSpacing;
+            format.WordWrap = PdfWordWrapType.Character;
+
             WriteString(page, "Тема:" + " \"" + test.Title + "\" ", TitleFont, PdfBrushes.Black);
             WriteString(page, "Дисциплина:" + " \"" + test.Description + "\" ", SmallFont, PdfBrushes.Black);
             WriteString(page, "Составил:" + " \"" + test.Author + "\" ", SmallFont, PdfBrushes.Black);
             DrawLine(page, new PdfPen(Color.Black, 2));
-            
-            for(int i = 0; i < test.Questions.Count; i++ )
+
+            for ( int i = 0; i < test.Questions.Count; i++ )
             {
                 if ( yPosition > page.Size.Height )
                 {
@@ -185,10 +200,8 @@ namespace Presentation_Layar.Service
                 }
                 WriteString(page, "Задание " + ( i + 1 ).ToString() + ". ", MainFont, PdfBrushes.Black);
                 WriteString(page, test.Questions[i].Queston, MainFont, PdfBrushes.Black);
-                for ( int j = 0; j < test.Questions[i].Answers.Count; j++ )
-                {
-                    WriteString(page, j + ") " + test.Questions[i].Answers[j], MainFont, PdfBrushes.Black, 10);
-                }
+                List<string> answers = new List<string>();
+                DrawObjectsInLine(test.Questions[i].Answers, 2, page, MainFont, format);
                 WriteString(page, "Ответ: ____", MainFont, PdfBrushes.Black);
                 WriteString(page, " ", MainFont, PdfBrushes.Black);
             }
@@ -205,13 +218,13 @@ namespace Presentation_Layar.Service
             return true;
         }
 
-        private static float GetNeedHeight(PdfFont font, int stringLength)
+        private static float GetNeedHeight(PdfFont font, int stringLength, int symbolsInLine)
         {
             int needLines = 1;
-            while(stringLength > SYMBOLS_IN_LINE )
+            while(stringLength > symbolsInLine)
             {
                 needLines++;
-                stringLength -= SYMBOLS_IN_LINE;
+                stringLength -= symbolsInLine;
             }
             return needLines * font.Height;
         }
@@ -228,7 +241,7 @@ namespace Presentation_Layar.Service
             format.WordWrap = PdfWordWrapType.Character;
 
             PdfGraphics graphics = page.Graphics;
-            float needArea = GetNeedHeight(font, str.Length);
+            float needArea = GetNeedHeight(font, str.Length, SYMBOLS_IN_LINE);
             graphics.DrawString(str, font, brush, new RectangleF(offset, yPosition, PAGE_WIDTH, needArea));
             yPosition += needArea;
         }
@@ -238,6 +251,97 @@ namespace Presentation_Layar.Service
             yPosition += LineSpacing;
             graphics.DrawLine(pen, new PointF(0, yPosition), new PointF(page.Size.Width, yPosition));
             yPosition += LineSpacing;
+        }
+        private static string GetLongestString(List<string> strings)
+        {
+            string longestString = strings[0];
+            foreach(string str in strings )
+            {
+                if(str.Length > longestString.Length )
+                {
+                    longestString = str;
+                }
+            }
+            return longestString;
+        }
+
+
+        private static void DrawObjectsInLine(List<string> strings, int elementsInLine, PdfPage page, PdfFont font, PdfStringFormat format)
+        {
+            PdfGraphics graphics = page.Graphics;
+            List<List<string>> elementsInGrid = new List<List<string>>();
+            List<string> oneLine = new List<string>();
+
+            //разбиение на строки элементов
+            for (int i = 0; i < strings.Count; i++ )
+            {
+                oneLine.Add(strings[i]);
+                if(oneLine.Count == elementsInLine )
+                {
+                    elementsInGrid.Add(oneLine);
+                    oneLine = new List<string>();
+                }
+            }
+
+            //проход по всем элементам будущего Grid
+            for(int i = 0; i < elementsInGrid.Count; i++ )
+            {
+                List<float> heights = new List<float>();
+
+                List<string> elements = new List<string>(elementsInGrid[i]);
+                for ( int k = 0; k < elements.Count; k++ )
+                {
+                    heights.Add(GetNeedHeight(font, elements[k], SYMBOLS_IN_LINE / elementsInLine));
+                }
+                float needHeight = GetMoreNumber(heights); //получаем высоту, которая необходима строке
+                float availableWidth = PAGE_WIDTH / elements.Count; //досутпная ширина на один элемент
+                int xPosition = 0;
+                for ( int k = 0; k < elements.Count; k++ )
+                {
+                    if ( FileWorker.IsImage(elements[i]) )
+                    {
+                        try
+                        {
+                            PdfBitmap image = new PdfBitmap(elements[k]);
+                            graphics.DrawImage(image, new RectangleF(xPosition, yPosition, availableWidth, needHeight));
+                        }
+                        catch( System.Exception e )
+                        {
+                            graphics.DrawString("Файл не найен", font, PdfBrushes.Black, new RectangleF(xPosition, yPosition, availableWidth, needHeight), format);
+                        }
+                    }
+                    else
+                    {
+                        graphics.DrawString(elements[k], font, PdfBrushes.Black, new RectangleF(xPosition, yPosition, availableWidth, needHeight), format);
+                    }
+                    xPosition += (int) availableWidth;
+                }
+                yPosition += needHeight;
+            }
+        }
+        private static float GetNeedHeight(PdfFont font, string str, int symbolsInLine)
+        {
+            if ( FileWorker.IsImage(str) ) return PDF_IMAGE_HEIGHT + PDF_IMAGE_MARGIN;
+            int needLines = 1,
+                strLength = str.Length;
+            while(strLength > symbolsInLine )
+            {
+                needLines++;
+                strLength -= symbolsInLine;
+            }
+            return needLines * font.Height + LineSpacing;
+        }
+        private static float GetMoreNumber(List<float> numbers)
+        {
+            float moreNumber = numbers[0];
+            for(int i = 0; i < numbers.Count; i++ )
+            {
+                if(moreNumber < numbers[i] )
+                {
+                    moreNumber = numbers[i];
+                }
+            }
+            return moreNumber;
         }
         #endregion
     }
