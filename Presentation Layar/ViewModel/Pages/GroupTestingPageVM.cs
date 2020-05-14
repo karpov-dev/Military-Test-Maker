@@ -34,6 +34,7 @@ namespace Presentation_Layar.ViewModel.Pages
             }
         }
         public ObservableCollection<AnswerViewVM> AnswerViews { get; set; }
+        public bool ButtonsEnabled { get; set; }
 
         public string Question => _question.Queston;
         public List<string> Answers => _question.Answers;
@@ -113,6 +114,7 @@ namespace Presentation_Layar.ViewModel.Pages
             _settings = Settings.GetInstance();
             AnswerViews = new ObservableCollection<AnswerViewVM>();
             TimerTime = _settings.GroupTimeToNextQuestion;
+            ButtonsEnabled = true;
             
             for(int i = 0; i < _question.Answers.Count; i++ )
             {
@@ -132,6 +134,8 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _showRightAnswer;
         public RelayCommand ShowRightAnswer => _showRightAnswer ?? ( _showRightAnswer = new RelayCommand(obj =>
         {
+            ButtonsEnabled = false;
+            OnPropertyChanged("ButtonsEnabled");
             HideWrongAnswers();
             _timer = new DispatcherTimer();
             _timer.Tick += TimerTick;

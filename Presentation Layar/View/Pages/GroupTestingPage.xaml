@@ -111,11 +111,13 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="Закончить тестирование"
                         Style="{StaticResource Button}"
-                        Command="{Binding CancelCommand}"/>
+                        Command="{Binding CancelCommand}"
+                        IsEnabled="{Binding ButtonsEnabled}"/>
                 <Button Content="Правильный ответ"
                         Style="{StaticResource Button}"
                         Command="{Binding ShowRightAnswer}"
-                        Grid.Column="1"/>
+                        Grid.Column="1"
+                        IsEnabled="{Binding ButtonsEnabled}"/>
             </Grid>
         </Grid>
     </Grid>

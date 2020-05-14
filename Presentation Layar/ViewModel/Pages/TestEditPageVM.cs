@@ -102,16 +102,8 @@ namespace Presentation_Layar.ViewModel.Pages
                 Error.Show("Выберите вопрос для редактирования");
                 return;
             }
-            EditQuestion editWindow = new EditQuestion();
-            editWindow.DataContext = new EditQuestionVM(editWindow, SelectedQuestion);
-            editWindow.Closed += EditWindow_Closed;
-            editWindow.Show();
+            Root.CurrentVM = new EditQuestionVM(Root, this, SelectedQuestion);
         }) );
-
-        private void EditWindow_Closed(object sender, System.EventArgs e)
-        {
-            UpdateComponent();
-        }
 
         private RelayCommand _deleteQuestion;
         public RelayCommand DeleteQuestion => _deleteQuestion ?? ( _deleteQuestion = new RelayCommand(obj =>

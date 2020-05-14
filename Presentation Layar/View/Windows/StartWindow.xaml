@@ -52,6 +52,10 @@
             <pageView:SettingsPage/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type page:EditQuestionVM}">
+            <pageView:EditQuestion/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>

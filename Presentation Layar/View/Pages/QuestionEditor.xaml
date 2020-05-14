@@ -18,7 +18,7 @@
             <ColumnDefinition Width="0.6*"/>
             <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="Редактор вопроса"
+        <TextBlock Text="Создание вопроса"
                    Style="{StaticResource BigText_Center}"
                    Grid.Column="0"
                    Grid.ColumnSpan="3"

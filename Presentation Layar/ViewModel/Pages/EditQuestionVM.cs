@@ -1,6 +1,7 @@
 ﻿using Data_Layer;
 using Presentation_Layar.Service;
 using Presentation_Layar.View.Windows;
+using Presentation_Layar.ViewModel.BaseNavigation;
 using Presentation_Layar.ViewModel.Components;
 using Service_Layar;
 using System;
@@ -8,14 +9,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace Presentation_Layar.ViewModel.Windows
+namespace Presentation_Layar.ViewModel.Pages
 {
-    class EditQuestionVM : ModelPropertyChanged 
+    class EditQuestionVM : ViewModelBase 
     {
         #region Constructors
-        public EditQuestionVM(EditQuestion window, Question question)
+        public EditQuestionVM(RootVM root, object owner, Question question) : base(root, owner)
         {
-            Window = window;
             Question = question;
             OldQuestion = (Question)question.Clone();
             QuestionInput = new InputTextVM();
@@ -36,7 +36,6 @@ namespace Presentation_Layar.ViewModel.Windows
         #region Properties
         public Question Question { get; set; }
         public Question OldQuestion { get; set; }
-        public EditQuestion Window { get; set; }
         public InputTextVM QuestionInput { get; set; }
         public ObservableCollection<InputAnswerVM> Answers { get; set; }
         #endregion
@@ -46,7 +45,7 @@ namespace Presentation_Layar.ViewModel.Windows
         public RelayCommand CancelCommand => _cancelCommand ?? ( _cancelCommand = new RelayCommand(obj =>
         {
             Question = OldQuestion;
-            Window.Hide();
+            Root.CurrentVM = Owner;
         }));
 
         private RelayCommand _saveCommand;
@@ -58,7 +57,7 @@ namespace Presentation_Layar.ViewModel.Windows
                 UpdateAnswers();
                 SetRightAnswer();
 
-                Window.Hide();
+                Root.CurrentVM = Owner;
             }
         }));
         #endregion
