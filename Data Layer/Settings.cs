@@ -77,6 +77,30 @@ namespace Data_Layer
         public const string DEFAULT_PASSWORD = "104182";
         #endregion
 
+        #region PDF SETTINGS
+        public const int MAX_TITLE_FONT_SIZE = 18;
+        public const int MAX_BIG_FONT_SIZE = 16;
+        public const int MAX_MAIN_FONT_SIZE = 14;
+        public const int MAX_SMALL_FONT_SIZE = 12;
+        public const int MIN_FONT_SIZE = 6;
+
+        public const float MAX_LINE_SPACING = 3f;
+        public const float MIN_LINE_SPACING = 1f;
+
+        public const float MAX_WORD_SPACING = 4f;
+        public const float MIN_WORD_SPACING = 1f;
+
+        public const int MAX_QUESTIONS_OFFSET = 60;
+        public const int MIN_QUESTIONS_OFFSET = 0;
+
+        public const int SYMBOLS_IN_LINE = 90;
+        public const int PAGE_WIDTH = 450;
+
+        public const int PDF_IMAGE_HEIGHT = 100;
+        public const int PDF_IMAGE_MARGIN = 5;
+        public const int QUESTION_NUMBER_MARGIN = 14;
+        #endregion
+
         #endregion
 
         #region Properties
@@ -191,6 +215,97 @@ namespace Data_Layer
             set
             {
                 _password = value;
+            }
+        }
+
+        private int _titleFontSize = 14;
+        public int TitleFontSize
+        {
+            get => _titleFontSize;
+            set
+            {
+                if ( value < MAX_TITLE_FONT_SIZE && value >= MIN_FONT_SIZE )
+                {
+                    _titleFontSize = value;
+                }
+            }
+        }
+
+        private int _bigFontSize = 12;
+        public int BigFontSize
+        {
+            get => _bigFontSize;
+            set
+            {
+                if ( value < MAX_BIG_FONT_SIZE && value >= MIN_FONT_SIZE )
+                {
+                    _bigFontSize = value;
+                }
+            }
+        }
+
+        private int _mainFontSize = 9;
+        public int MainFontSize
+        {
+            get => _mainFontSize;
+            set
+            {
+                if ( value < MAX_MAIN_FONT_SIZE && value >= MIN_FONT_SIZE )
+                {
+                    _mainFontSize = value;
+                }
+            }
+        }
+
+        private int _smallFontSize = 6;
+        public int SmallFontSize
+        {
+            get => _smallFontSize;
+            set
+            {
+                if ( value < MAX_SMALL_FONT_SIZE && value >= MIN_FONT_SIZE )
+                {
+                    _smallFontSize = value;
+                }
+            }
+        }
+
+        private float _lineSpacing = 1.1f;
+        public float LineSpacing
+        {
+            get => _lineSpacing;
+            set
+            {
+                if ( value < MAX_LINE_SPACING && value >= MIN_LINE_SPACING )
+                {
+                    _lineSpacing = value;
+                }
+            }
+        }
+
+        private float _wordSpacing = 1.5f;
+        public float WordSpacing
+        {
+            get => _wordSpacing;
+            set
+            {
+                if ( value < MAX_WORD_SPACING && value >= MIN_WORD_SPACING )
+                {
+
+                }
+            }
+        }
+
+        private int _questionsOffset = 10;
+        public int QuestionOffset
+        {
+            get => _questionsOffset;
+            set
+            {
+                if ( value < MAX_QUESTIONS_OFFSET && value > MIN_QUESTIONS_OFFSET )
+                {
+                    _questionsOffset = value;
+                }
             }
         }
         #endregion

@@ -68,9 +68,6 @@
                     <TextBlock Text="Межстрочный интервал"
                            Style="{StaticResource LittleText}"
                            Margin="6"/>
-                    <TextBlock Text="Межбуквенный интервал"
-                           Style="{StaticResource LittleText}"
-                           Margin="6"/>
                     <TextBlock Text="Отступ ответов"
                            Style="{StaticResource LittleText}"
                            Margin="6"/>
@@ -83,10 +80,6 @@
                     <TextBox Text="{Binding WordSpacing}"
                          Style="{StaticResource LittleTextBox}"
                          MaxLength="1"
-                         HorizontalContentAlignment="Center"/>
-                    <TextBox Text="{Binding QuestionOffset}"
-                         Style="{StaticResource LittleTextBox}"
-                         MaxLength="2"
                          HorizontalContentAlignment="Center"/>
                 </StackPanel>
             </Grid>

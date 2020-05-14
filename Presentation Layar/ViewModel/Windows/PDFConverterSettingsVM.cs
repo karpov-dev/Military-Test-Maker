@@ -4,66 +4,69 @@ using Presentation_Layar.ViewModel.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Presentation_Layar.ViewModel.Windows
 {
     class PDFConverterSettingsVM : ModelPropertyChanged 
     {
+        Settings _settings = Settings.GetInstance();
+
         #region Properties
         public int TitleFontSize
         {
-            get => PDFCreator.TitleFontSize;
+            get => _settings.TitleFontSize;
             set
             {
-                PDFCreator.TitleFontSize = value;
+                _settings.TitleFontSize = value;
             }
         }
         public int BigFontSize
         {
-            get => PDFCreator.BigFontSize;
+            get => _settings.BigFontSize;
             set
             {
-                PDFCreator.BigFontSize = value;
+                _settings.BigFontSize = value;
             }
         }
         public int MainFontSize
         {
-            get => PDFCreator.MainFontSize;
+            get => _settings.MainFontSize;
             set
             {
-                PDFCreator.MainFontSize = value;
+                _settings.MainFontSize = value;
             }
         }
         public int SmallFontSize
         {
-            get => PDFCreator.SmallFontSize;
+            get => _settings.SmallFontSize;
             set
             {
-                PDFCreator.SmallFontSize = value;
+                _settings.SmallFontSize = value;
             }
         }
         public int QuestionOffset
         {
-            get => PDFCreator.QuestionOffset;
+            get => _settings.QuestionOffset;
             set
             {
-                PDFCreator.QuestionOffset = value;
+                _settings.QuestionOffset = value;
             }
         }
         public float LineSpacing
         {
-            get => PDFCreator.LineSpacing;
+            get => _settings.LineSpacing;
             set
             {
-                PDFCreator.LineSpacing = value;
+                _settings.LineSpacing = value;
             }
         }
         public float WordSpacing
         {
-            get => PDFCreator.WordSpacing;
+            get => _settings.WordSpacing;
             set
             {
-                PDFCreator.WordSpacing = value;
+                _settings.WordSpacing = value;
             }
         }
         public string FilePath
@@ -101,11 +104,7 @@ namespace Presentation_Layar.ViewModel.Windows
         private RelayCommand _convertIt;
         public RelayCommand ConvertToPDF => _convertIt ?? ( _convertIt = new RelayCommand(obj =>
         {
-            HideNotifications();
-            bool convertResult = PDFCreator.CreatePDF(Test);
-            Info.Hide();
-            if ( convertResult ) Info.Show("PDF файл успешно сформирован!");
-            else Error.Show("Возникла ошибка при формировании PDF файла");
+            ConvertIt();
         }));
         #endregion
 
@@ -114,6 +113,14 @@ namespace Presentation_Layar.ViewModel.Windows
         {
             Info.Hide();
             Error.Hide();
+        }
+        private async void ConvertIt()
+        {
+            HideNotifications();
+            Info.Show("Начато формирование PDF файла");
+            bool convertResult = await Task.Run(() => PDFCreator.CreatePDF(Test));
+            if ( convertResult ) Info.Show("PDF файл успешно сформирован!");
+            else Error.Show("Возникла ошибка при формировании PDF файла");
         }
         #endregion
     }

@@ -1,4 +1,6 @@
-﻿using Presentation_Layar.ViewModel.BaseNavigation;
+﻿using Data_Access_Layar;
+using Data_Layer;
+using Presentation_Layar.ViewModel.BaseNavigation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +23,7 @@ namespace Presentation_Layar.View.Windows
         public StartWindow()
         {
             InitializeComponent();
+            DataBase.GetInstance();
             DataContext = new RootVM();
         }
     }
