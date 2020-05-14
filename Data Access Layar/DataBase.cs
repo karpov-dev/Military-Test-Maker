@@ -16,7 +16,6 @@ namespace Data_Access_Layar
 
         #region Data
         public List<Test> Tests { get; set; }
-        private Settings _settings = Settings.GetInstance();
         #endregion
 
         #region DataBase Instance
@@ -130,13 +129,14 @@ namespace Data_Access_Layar
         public void WriteData_Settings(string path = null, string fileName = null)
         {
             string fullPath = "";
+            Settings settings = Settings.GetInstance();
             if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_SETTINGS_FILE_NAME;
             else fullPath = DEFAULT_PATH + "\\" + fileName;
 
             BinaryFormatter formatter = new BinaryFormatter();
             using ( FileStream fs = new FileStream(fullPath, FileMode.OpenOrCreate) )
             {
-                formatter.Serialize(fs, _settings);
+                formatter.Serialize(fs, settings);
             }
         }
         #endregion

@@ -73,6 +73,10 @@ namespace Data_Layer
         public const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
         #endregion
 
+        #region ApplicationSettings
+        public const string DEFAULT_PASSWORD = "104182";
+        #endregion
+
         #endregion
 
         #region Properties
@@ -177,6 +181,16 @@ namespace Data_Layer
                 {
                     _maxTestWrongs = value;
                 }
+            }
+        }
+
+        private string _password = DEFAULT_PASSWORD;
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
             }
         }
         #endregion

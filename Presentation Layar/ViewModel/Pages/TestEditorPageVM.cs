@@ -66,7 +66,8 @@ namespace Presentation_Layar.ViewModel.Pages
         public RelayCommand AddTest => _addTest ?? ( _addTest = new RelayCommand(obj =>
         {
             HideNotifications();
-            Root.CurrentVM = new TestEditPageVM(Root, this, null);
+            TestEditPageVM editPage = new TestEditPageVM(Root, this, null);
+            Root.CurrentVM = new PasswordPageVM(Root, this, editPage, _settings.Password);
         }));
 
         private RelayCommand _editTest;
@@ -78,7 +79,9 @@ namespace Presentation_Layar.ViewModel.Pages
                 Error.Show("Выберите тест для редактирования");
                 return;
             }
-            Root.CurrentVM = new TestEditPageVM(Root, this, SelectedTest);
+
+            TestEditPageVM editPage = new TestEditPageVM(Root, this, SelectedTest);
+            Root.CurrentVM = new PasswordPageVM(Root, this, editPage, _settings.Password);
         }));
 
         private RelayCommand _deleteTest;
@@ -92,9 +95,12 @@ namespace Presentation_Layar.ViewModel.Pages
             }
             bool removeResult = _dataService.RemoveTest(SelectedTest);
             UpdateComponent();
-            if ( !removeResult ) Error.Show("Возникла ошибка при удалении теста");
-            Info.Show("Тест успешно удалён");
-            
+            PasswordPageVM passwordPage = new PasswordPageVM(Root, Owner, this, _settings.Password);
+            if ( passwordPage.PasswordIsTrue )
+            {
+                if ( !removeResult ) Error.Show("Возникла ошибка при удалении теста");
+                Info.Show("Тест успешно удалён");
+            }
         }));
 
         private RelayCommand _exportToPDF;

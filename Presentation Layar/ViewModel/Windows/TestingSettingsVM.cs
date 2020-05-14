@@ -27,6 +27,7 @@ namespace Presentation_Layar.ViewModel.Windows
             ImageWidth = _settings.ImageWidht;
             MaxWrongs = _settings.MaxTestWrongs;
             PersonalTestTime = _settings.TimeToTestEnd;
+            Password = _settings.Password;
         }
         #endregion
 
@@ -136,6 +137,16 @@ namespace Presentation_Layar.ViewModel.Windows
                 else Error.Show("Высота изображения должна быть в диапозоне от " + Settings.MIN_IMAGE_HEIGHT + " до " + Settings.MAX_IMAGE_HEIGHT);
             }
         }
+
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+            }
+        }
         #endregion
 
         #endregion
@@ -152,6 +163,7 @@ namespace Presentation_Layar.ViewModel.Windows
             _settings.ImageWidht = ImageWidth;
             _settings.TimeToTestEnd = PersonalTestTime;
             _settings.MaxTestWrongs = MaxWrongs;
+            _settings.Password = Password;
             Window.Hide();
         }));
 
