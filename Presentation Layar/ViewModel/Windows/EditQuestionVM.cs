@@ -26,6 +26,8 @@ namespace Presentation_Layar.ViewModel.Windows
             {
                 InputAnswerVM answerVM = new InputAnswerVM(i + 1);
                 answerVM.Text = question.Answers[i];
+                if ( question.Answers[i] == question.RightAnswer )
+                    answerVM.IsCheceked = true;
                 Answers.Add(answerVM);
             }
         }
@@ -50,15 +52,49 @@ namespace Presentation_Layar.ViewModel.Windows
         private RelayCommand _saveCommand;
         public RelayCommand SaveCommand => _saveCommand ?? ( _saveCommand = new RelayCommand(obj =>
         {
-            Question.Queston = QuestionInput.Text;
-            DataService dataService = DataService.GetInstance();
-            for(int i = 0; i < Answers.Count; i++ )
+            if ( CanSave() )
+            {
+                Question.Queston = QuestionInput.Text;
+                UpdateAnswers();
+                SetRightAnswer();
+
+                Window.Hide();
+            }
+        }));
+        #endregion
+
+        #region Methods 
+        private bool CanSave()
+        {
+            List<bool> cmpCanSave = new List<bool>()
+            {
+                QuestionInput.CanSave()
+            };
+            foreach(InputAnswerVM inputVM in Answers )
+            {
+                cmpCanSave.Add(inputVM.CanSave());
+            }
+            foreach(bool canSave in cmpCanSave )
+            {
+                if ( !canSave ) return false;
+            }
+            return true;
+        }
+        private void UpdateAnswers()
+        {
+            for ( int i = 0; i < Answers.Count; i++ )
             {
                 Question.Answers[i] = Answers[i].Text;
             }
-            
-            Window.Hide();
-        }));
+        }
+        private void SetRightAnswer()
+        {
+            foreach(InputAnswerVM answerVM in Answers )
+            {
+                if ( answerVM.IsCheceked )
+                    Question.RightAnswer = answerVM.Text;
+            }
+        }
         #endregion
     }
 }
