@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="Presentation_Layar.View.Pages.SettingsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation_Layar.View.Pages"
+             xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="{StaticResource ApplicationBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Групповое тестирование"
+                   Style="{StaticResource BigText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Количество вопросов:"
+                           Style="{StaticResource NormalText}"
+                           Margin="6"/>
+                    <TextBlock Text="Время до перехода:"
+                           Style="{StaticResource NormalText}"
+                           Margin="6"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding GroupAmountQuestions}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding GroupTimeToNextQuestion}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="Общее"
+                       Style="{StaticResource BigText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Ширина изображений, px:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                    <TextBlock Text="Высота изображений, px:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                    <TextBlock Text="Пароль:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding ImageWidth}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding ImageHeight}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding Password}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="20"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <TextBlock Text="Персональное тестирование"
+                   Style="{StaticResource BigText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Количество вопросов:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                    <TextBlock Text="Время на прохождение:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                    <TextBlock Text="Допустимо ошибок:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                    <TextBlock Text="Время показа ответа:"
+                               Style="{StaticResource NormalText}"
+                               Margin="6"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding PersonalAmountQuestions}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding PersonalTestTime}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding MaxWrongs}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+                    <TextBox Text="{Binding PersonalTimeToNextQuestion}"
+                             Style="{StaticResource NormalTextBox}"
+                             HorizontalContentAlignment="Center"
+                             MaxLength="3"/>
+
+                </StackPanel>
+            </Grid>
+            <cmp:ErrorMessage DataContext="{Binding Error}"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Назад"
+                    Style="{StaticResource Button}"
+                    Command="{Binding CancelCommand}"/>
+            <Button Content="Сохранить"
+                    Style="{StaticResource Button}"
+                    Command="{Binding SaveSettings}"
+                    Grid.Column="1"/>
+        </Grid>
+    </Grid>
+</UserControl>

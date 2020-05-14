@@ -1,23 +1,23 @@
 ﻿using Data_Layer;
 using Presentation_Layar.Service;
 using Presentation_Layar.View.Windows;
+using Presentation_Layar.ViewModel.BaseNavigation;
 using Presentation_Layar.ViewModel.Components;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Presentation_Layar.ViewModel.Windows
+namespace Presentation_Layar.ViewModel.Pages
 {
-    class TestingSettingsVM : ModelPropertyChanged
+    class TestingSettingsVM : ViewModelBase
     {
         #region Variables
         private Settings _settings = Settings.GetInstance();
         #endregion
 
         #region Constructors
-        public TestingSettingsVM(TestingSettings window)
+        public TestingSettingsVM(RootVM root, object owner): base(root, owner)
         {
-            Window = window;
             Error = new ErrorMessageVM();
             GroupAmountQuestions = _settings.GroupAmountQuestions;
             GroupTimeToNextQuestion = _settings.GroupTimeToNextQuestion;
@@ -164,13 +164,13 @@ namespace Presentation_Layar.ViewModel.Windows
             _settings.TimeToTestEnd = PersonalTestTime;
             _settings.MaxTestWrongs = MaxWrongs;
             _settings.Password = Password;
-            Window.Hide();
+            Root.CurrentVM = Owner;
         }));
 
         private RelayCommand _cancelCommand;
         public RelayCommand CancelCommand => _cancelCommand ?? ( _cancelCommand = new RelayCommand(obj =>
         {
-            Window.Hide();
+            Root.CurrentVM = Owner;
         }));
         #endregion
     }

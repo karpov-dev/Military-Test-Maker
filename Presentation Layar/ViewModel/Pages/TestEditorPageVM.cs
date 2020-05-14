@@ -93,11 +93,12 @@ namespace Presentation_Layar.ViewModel.Pages
                 Error.Show("Выберите тест для удаления");
                 return;
             }
-            bool removeResult = _dataService.RemoveTest(SelectedTest);
             UpdateComponent();
             PasswordPageVM passwordPage = new PasswordPageVM(Root, Owner, this, _settings.Password);
+            Root.CurrentVM = passwordPage;
             if ( passwordPage.PasswordIsTrue )
             {
+                bool removeResult = _dataService.RemoveTest(SelectedTest);
                 if ( !removeResult ) Error.Show("Возникла ошибка при удалении теста");
                 Info.Show("Тест успешно удалён");
             }
@@ -131,9 +132,8 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _goToTestingSettings;
         public RelayCommand GoToTestingSettings => _goToTestingSettings ?? ( _goToTestingSettings = new RelayCommand(obj =>
         {
-            TestingSettings settings = new TestingSettings();
-            settings.DataContext = new TestingSettingsVM(settings);
-            settings.Show();
+            TestingSettingsVM settings = new TestingSettingsVM(Root, this);
+            Root.CurrentVM = new PasswordPageVM(Root, this, settings, _settings.Password);
         }));
 
         private RelayCommand _cancel;

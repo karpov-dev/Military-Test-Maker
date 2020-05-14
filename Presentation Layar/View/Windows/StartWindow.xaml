@@ -47,7 +47,11 @@
         <DataTemplate DataType="{x:Type page:PasswordPageVM}">
             <pageView:PasswordPage/>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type page:TestingSettingsVM}">
+            <pageView:SettingsPage/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>

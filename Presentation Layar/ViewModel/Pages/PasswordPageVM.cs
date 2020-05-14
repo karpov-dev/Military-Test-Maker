@@ -1,6 +1,7 @@
 ﻿using Presentation_Layar.Service;
 using Presentation_Layar.ViewModel.BaseNavigation;
 using Presentation_Layar.ViewModel.Components;
+using Syncfusion.Windows.Shared;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,8 +15,7 @@ namespace Presentation_Layar.ViewModel.Pages
             _password = password;
             _nextPage = nextPage;
             Error = new ErrorMessageVM();
-            PasswordIsTrue = false;
-        }
+            PasswordIsTrue = false;        }
 
         #region Variables
         private string _password;
