@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Presentation_Layar.View.Components"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
+    <StackPanel Margin="0, 5, 0, 5">
         <Grid VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>

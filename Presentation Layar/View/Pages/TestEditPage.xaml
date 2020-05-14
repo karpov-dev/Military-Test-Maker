@@ -37,7 +37,7 @@
                         Command="{Binding AddQuestion}"/>
                 <Button Content="Редактировать вопрос"
                         Style="{StaticResource Button}"
-                        Command="{Binding EditQuestion}"
+                        Command="{Binding EditSelectedQuestion}"
                         IsEnabled="{Binding ButtonsEnabled}"/>
                 <Button Content="Удалить вопрос"
                         Style="{StaticResource RedButton}"

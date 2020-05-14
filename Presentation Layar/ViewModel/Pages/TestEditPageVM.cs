@@ -6,6 +6,8 @@ using Service_Layar;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows;
+using Presentation_Layar.View.Windows;
+using Presentation_Layar.ViewModel.Windows;
 
 namespace Presentation_Layar.ViewModel.Pages
 {
@@ -92,16 +94,24 @@ namespace Presentation_Layar.ViewModel.Pages
             Root.CurrentVM = new QuestionEditorVM(Root, this, Test, null);
         }) );
 
-        private RelayCommand _editQuestion;
-        public RelayCommand EditQuestion => _editQuestion ?? ( _editQuestion = new RelayCommand(obj =>
+        private RelayCommand _editSelectedQuestion;
+        public RelayCommand EditSelectedQuestion => _editSelectedQuestion ?? ( _editSelectedQuestion = new RelayCommand(obj =>
         {
             if ( SelectedQuestion == null )
             {
                 Error.Show("Выберите вопрос для редактирования");
                 return;
             }
-            Root.CurrentVM = new QuestionEditorVM(Root, this, Test, SelectedQuestion);
+            EditQuestion editWindow = new EditQuestion();
+            editWindow.DataContext = new EditQuestionVM(editWindow, SelectedQuestion);
+            editWindow.Closed += EditWindow_Closed;
+            editWindow.Show();
         }) );
+
+        private void EditWindow_Closed(object sender, System.EventArgs e)
+        {
+            UpdateComponent();
+        }
 
         private RelayCommand _deleteQuestion;
         public RelayCommand DeleteQuestion => _deleteQuestion ?? ( _deleteQuestion = new RelayCommand(obj =>

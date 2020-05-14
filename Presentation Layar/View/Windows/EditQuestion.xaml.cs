@@ -8,17 +8,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation_Layar.CustomComponents
+namespace Presentation_Layar.View.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для AnswerInput.xaml
+    /// Логика взаимодействия для EditQuestion.xaml
     /// </summary>
-    public partial class AnswerInput : UserControl
+    public partial class EditQuestion : Window
     {
-        public AnswerInput()
+        public EditQuestion()
         {
             InitializeComponent();
         }

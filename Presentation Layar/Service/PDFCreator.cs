@@ -2,6 +2,7 @@
 using Presentation_Layar.Model;
 using Syncfusion.Pdf;
 using Syncfusion.Pdf.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,6 +14,9 @@ namespace Presentation_Layar.Service
     {
         #region Variables
         private static float yPosition = 0;
+        private static PdfPage page;
+        private static PdfDocument document;
+        private static PdfGraphics graphics;
         #endregion
 
         #region Constants
@@ -34,9 +38,9 @@ namespace Presentation_Layar.Service
         private const int SYMBOLS_IN_LINE = 90;
         private const int PAGE_WIDTH = 450;
 
-        private const int PDF_IMAGE_WIDTH = 100;
         private const int PDF_IMAGE_HEIGHT = 100;
         private const int PDF_IMAGE_MARGIN = 5;
+        private const int QUESTION_NUMBER_MARGIN = 14;
         #endregion
 
         #region Properties
@@ -164,9 +168,9 @@ namespace Presentation_Layar.Service
             if ( test == null) return false;
 
             #region Documet Page Graphics
-            PdfDocument document = new PdfDocument();
-            PdfPage page = document.Pages.Add();
-            PdfGraphics graphics = page.Graphics;
+            document = new PdfDocument();
+            page = document.Pages.Add();
+            graphics = page.Graphics;
             yPosition = 0;
             #endregion
 
@@ -186,24 +190,20 @@ namespace Presentation_Layar.Service
             format.WordSpacing = WordSpacing;
             format.WordWrap = PdfWordWrapType.Character;
 
-            WriteString(page, "Тема:" + " \"" + test.Title + "\" ", TitleFont, PdfBrushes.Black);
-            WriteString(page, "Дисциплина:" + " \"" + test.Description + "\" ", SmallFont, PdfBrushes.Black);
-            WriteString(page, "Составил:" + " \"" + test.Author + "\" ", SmallFont, PdfBrushes.Black);
-            DrawLine(page, new PdfPen(Color.Black, 2));
+            WriteString("Тема:" + " \"" + test.Title + "\" ", TitleFont, PdfBrushes.Black);
+            WriteString("Дисциплина:" + " \"" + test.Description + "\" ", SmallFont, PdfBrushes.Black);
+            WriteString("Составил:" + " \"" + test.Author + "\" ", SmallFont, PdfBrushes.Black);
+            DrawLine(new PdfPen(Color.Black, 2));
 
             for ( int i = 0; i < test.Questions.Count; i++ )
             {
-                if ( yPosition > page.Size.Height )
-                {
-                    page = document.Pages.Add();
-                    yPosition = 0;
-                }
-                WriteString(page, "Задание " + ( i + 1 ).ToString() + ". ", MainFont, PdfBrushes.Black);
-                WriteString(page, test.Questions[i].Queston, MainFont, PdfBrushes.Black);
+                CheckPageEnd();
+                WriteString("Задание " + ( i + 1 ).ToString() + ". ", MainFont, PdfBrushes.Black);
+                WriteString(test.Questions[i].Queston, MainFont, PdfBrushes.Black);
                 List<string> answers = new List<string>();
-                DrawObjectsInLine(test.Questions[i].Answers, 2, page, MainFont, format);
-                WriteString(page, "Ответ: ____", MainFont, PdfBrushes.Black);
-                WriteString(page, " ", MainFont, PdfBrushes.Black);
+                DrawObjectsInLine(test.Questions[i].Answers, 2, MainFont, format);
+                WriteString("Ответ: ____", MainFont, PdfBrushes.Black);
+                WriteString(" ", MainFont, PdfBrushes.Black);
             }
 
             try
@@ -228,29 +228,19 @@ namespace Presentation_Layar.Service
             }
             return needLines * font.Height;
         }
-        private static void WriteString(PdfPage page, string str, PdfFont font, PdfBrush brush, int offset = 0)
+        private static void WriteString(string str, PdfFont font, PdfBrush brush, int offset = 0)
         {
-
-            PdfStringFormat format = new PdfStringFormat();
-            format.Alignment = PdfTextAlignment.Left;
-            format.LineAlignment = PdfVerticalAlignment.Middle;
-            format.CharacterSpacing = 1;
-            format.LineSpacing = LineSpacing;
-            format.ParagraphIndent = 2.1f;
-            format.WordSpacing = WordSpacing;
-            format.WordWrap = PdfWordWrapType.Character;
-
-            PdfGraphics graphics = page.Graphics;
             float needArea = GetNeedHeight(font, str.Length, SYMBOLS_IN_LINE);
+            CheckPageEnd(needArea);
             graphics.DrawString(str, font, brush, new RectangleF(offset, yPosition, PAGE_WIDTH, needArea));
             yPosition += needArea;
         }
-        private static void DrawLine(PdfPage page, PdfPen pen)
+        private static void DrawLine(PdfPen pen)
         {
-            PdfGraphics graphics = page.Graphics;
             yPosition += LineSpacing;
             graphics.DrawLine(pen, new PointF(0, yPosition), new PointF(page.Size.Width, yPosition));
             yPosition += LineSpacing;
+            CheckPageEnd();
         }
         private static string GetLongestString(List<string> strings)
         {
@@ -266,12 +256,10 @@ namespace Presentation_Layar.Service
         }
 
 
-        private static void DrawObjectsInLine(List<string> strings, int elementsInLine, PdfPage page, PdfFont font, PdfStringFormat format)
+        private static void DrawObjectsInLine(List<string> strings, int elementsInLine, PdfFont font, PdfStringFormat format)
         {
-            PdfGraphics graphics = page.Graphics;
             List<List<string>> elementsInGrid = new List<List<string>>();
             List<string> oneLine = new List<string>();
-
             //разбиение на строки элементов
             for (int i = 0; i < strings.Count; i++ )
             {
@@ -282,9 +270,9 @@ namespace Presentation_Layar.Service
                     oneLine = new List<string>();
                 }
             }
-
+            int answerNumber = 1;
             //проход по всем элементам будущего Grid
-            for(int i = 0; i < elementsInGrid.Count; i++ )
+            for (int i = 0; i < elementsInGrid.Count; i++ )
             {
                 List<float> heights = new List<float>();
 
@@ -294,29 +282,38 @@ namespace Presentation_Layar.Service
                     heights.Add(GetNeedHeight(font, elements[k], SYMBOLS_IN_LINE / elementsInLine));
                 }
                 float needHeight = GetMoreNumber(heights); //получаем высоту, которая необходима строке
-                float availableWidth = PAGE_WIDTH / elements.Count; //досутпная ширина на один элемент
+
+                //при необходимости переходим на другую страницу
+                CheckPageEnd(needHeight);
+
+                float availableWidth = PAGE_WIDTH / elements.Count - 10; //досутпная ширина на один элемент
                 int xPosition = 0;
                 for ( int k = 0; k < elements.Count; k++ )
                 {
-                    if ( FileWorker.IsImage(elements[i]) )
+                    
+                    if ( FileWorker.IsImage(elements[k]) )
                     {
                         try
                         {
-                            PdfBitmap image = new PdfBitmap(elements[k]);
-                            graphics.DrawImage(image, new RectangleF(xPosition, yPosition, availableWidth, needHeight));
+                            graphics.DrawString(answerNumber.ToString() + ") ", font, PdfBrushes.Black, new RectangleF(xPosition, yPosition, 13, QUESTION_NUMBER_MARGIN + LineSpacing), format);
+                            xPosition += QUESTION_NUMBER_MARGIN;
+                            graphics.DrawImage(new PdfBitmap(elements[k]), new RectangleF(xPosition, yPosition, availableWidth, needHeight));
+                            xPosition += PDF_IMAGE_MARGIN;
+                            yPosition += PDF_IMAGE_MARGIN;
                         }
                         catch( System.Exception e )
                         {
-                            graphics.DrawString("Файл не найен", font, PdfBrushes.Black, new RectangleF(xPosition, yPosition, availableWidth, needHeight), format);
+                            
                         }
                     }
                     else
                     {
-                        graphics.DrawString(elements[k], font, PdfBrushes.Black, new RectangleF(xPosition, yPosition, availableWidth, needHeight), format);
+                        graphics.DrawString(answerNumber.ToString() + ") " + elements[k], font, PdfBrushes.Black, new RectangleF(xPosition, yPosition, availableWidth, needHeight), format);
                     }
-                    xPosition += (int) availableWidth;
+                    xPosition += (int) availableWidth + 5;
+                    answerNumber++;
                 }
-                yPosition += needHeight;
+                yPosition += needHeight + 5;
             }
         }
         private static float GetNeedHeight(PdfFont font, string str, int symbolsInLine)
@@ -342,6 +339,17 @@ namespace Presentation_Layar.Service
                 }
             }
             return moreNumber;
+        }
+        private static bool CheckPageEnd(float needArea = 0)
+        {
+            if ( yPosition + needArea + 20 >= page.Size.Height )
+            {
+                page = document.Pages.Add();
+                graphics = page.Graphics;
+                yPosition = 0;
+                return true;
+            }
+            return false;
         }
         #endregion
     }
