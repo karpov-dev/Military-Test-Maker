@@ -16,6 +16,7 @@ namespace Data_Access_Layar
 
         #region Data
         public List<Test> Tests { get; set; }
+        public List<Lesson> Lessons { get; set; }
         #endregion
 
         #region DataBase Instance
@@ -32,6 +33,7 @@ namespace Data_Access_Layar
         {
             ReadData_Settings(DEFAULT_PATH, Settings.DATA_SETTINGS_FILE_NAME);
             ReadData_Tests(DEFAULT_PATH, Settings.DATA_TEST_FILE_NAME);
+            ReadData_Lessons(DEFAULT_PATH, Settings.DATA_LESSONS_FILE_NAME);
         }
         #endregion
 
@@ -85,6 +87,20 @@ namespace Data_Access_Layar
                 Settings.SetInstance((Settings) formatter.Deserialize(fs));
             }
         }
+        public void ReadData_Lessons(string path = null, string fileName = null)
+        {
+            Lessons = new List<Lesson>();
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) return;
+            string fullPath = path + "\\" + fileName;
+            if ( !File.Exists(fullPath) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_LESSONS_FILE_NAME;
+            if ( !File.Exists(fullPath) ) return;
+
+            BinaryFormatter formatter = new BinaryFormatter();
+            using ( FileStream fs = new FileStream(fullPath, FileMode.OpenOrCreate) )
+            {
+                Lessons = (List<Lesson>)formatter.Deserialize(fs);
+            }
+        }
 
         public void WriteData_Tests(string path = null, string fileName = null)
         {
@@ -131,12 +147,25 @@ namespace Data_Access_Layar
             string fullPath = "";
             Settings settings = Settings.GetInstance();
             if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_SETTINGS_FILE_NAME;
-            else fullPath = DEFAULT_PATH + "\\" + fileName;
+            else fullPath = path + "\\" + fileName;
 
             BinaryFormatter formatter = new BinaryFormatter();
             using ( FileStream fs = new FileStream(fullPath, FileMode.OpenOrCreate) )
             {
                 formatter.Serialize(fs, settings);
+            }
+        }
+        public void WriteData_Lessons(string path = null, string fileName = null)
+        {
+            string fullPath = "";
+            Settings settings = Settings.GetInstance();
+            if ( string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(fileName) ) fullPath = DEFAULT_PATH + "\\" + Settings.DATA_LESSONS_FILE_NAME;
+            else fullPath = path + "\\" + fileName;
+
+            BinaryFormatter formatter = new BinaryFormatter();
+            using ( FileStream fs = new FileStream(fullPath, FileMode.OpenOrCreate) )
+            {
+                formatter.Serialize(fs, Lessons);
             }
         }
         #endregion

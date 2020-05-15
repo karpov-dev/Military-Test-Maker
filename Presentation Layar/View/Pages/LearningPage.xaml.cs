@@ -8,16 +8,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation_Layar.View.Windows
+namespace Presentation_Layar.View.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для TestingSettings.xaml
+    /// Логика взаимодействия для LearningPage.xaml
     /// </summary>
-    public partial class TestingSettings : Window
+    public partial class LearningPage : UserControl
     {
-        public TestingSettings()
+        public LearningPage()
         {
             InitializeComponent();
         }

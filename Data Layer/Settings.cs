@@ -71,6 +71,7 @@ namespace Data_Layer
         #region DATABASE FILE NAMES
         public const string DATA_TEST_FILE_NAME = "TestData.xml";
         public const string DATA_SETTINGS_FILE_NAME = "SettingsData.dat";
+        public const string DATA_LESSONS_FILE_NAME = "Lessons.dat";
         #endregion
 
         #region ApplicationSettings

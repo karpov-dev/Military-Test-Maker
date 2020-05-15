@@ -32,7 +32,7 @@
                     Command="{Binding GoToTestEditor}"/>
             <Button Content="Обучение" 
                     Style="{StaticResource Button}"
-                    Command="{Binding GoLessonsEditor}"/>
+                    Command="{Binding GoToLearning}"/>
             <Button Content="Выход" 
                     Style="{StaticResource Button}"
                     Command="{Binding ExitApplication}"/>

@@ -33,7 +33,6 @@ namespace Presentation_Layar.ViewModel.Pages
 
         #region Properties
         public ErrorMessageVM Error { get; set; }
-        public TestingSettings Window { get; set; }
 
         #region Group Settings
         private int _groupAmountQuestions;

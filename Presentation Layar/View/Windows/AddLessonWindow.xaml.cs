@@ -13,11 +13,11 @@ using System.Windows.Shapes;
 namespace Presentation_Layar.View.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для EditQuestion.xaml
+    /// Логика взаимодействия для AddLessonWindow.xaml
     /// </summary>
-    public partial class EditQuestion : Window
+    public partial class AddLessonWindow : Window
     {
-        public EditQuestion()
+        public AddLessonWindow()
         {
             InitializeComponent();
         }

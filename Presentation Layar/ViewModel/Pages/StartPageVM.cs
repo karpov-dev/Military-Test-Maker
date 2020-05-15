@@ -20,6 +20,7 @@ namespace Presentation_Layar.ViewModel.Pages
             DataBase _db = DataBase.GetInstance();
             _db.WriteData_Tests();
             _db.WriteData_Settings();
+            _db.WriteData_Lessons();
         }
         #endregion
 
@@ -27,7 +28,7 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _goToLearning;
         public RelayCommand GoToLearning => _goToLearning ?? ( _goToLearning = new RelayCommand(obj =>
         {
-
+            Root.CurrentVM = new LearningPageVM(Root, this);
         }));
 
         private RelayCommand _goToTestEditor;

@@ -11,6 +11,7 @@ namespace Service_Layar
         #region Data Access Objects
         private QuestionDAO _questionDAO = new QuestionDAO();
         private TestDAO _testDAO = new TestDAO();
+        private LessonDAO _lessonDAO = new LessonDAO();
         #endregion
 
         #region Instance
@@ -35,6 +36,12 @@ namespace Service_Layar
         public bool InsertTest(Test test) => _testDAO.Insert(test);
         public bool RemoveTest(Test test) => _testDAO.Remove(test);
         public bool UpsertTest(Test oldVersion, Test newVersion) => _testDAO.Upsert(oldVersion, newVersion);
+        #endregion
+
+        #region Lesson DAO Methods 
+        public List<Lesson> GetLessons() => _lessonDAO.GetLessons();
+        public bool InsertLesson(Lesson lesson) => _lessonDAO.Insert(lesson);
+        public bool RemoveLesson(Lesson lesson) => _lessonDAO.Remove(lesson);
         #endregion
     }
 }

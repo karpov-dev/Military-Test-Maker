@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="Presentation_Layar.View.Pages.LearningPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation_Layar.View.Pages"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="{StaticResource ApplicationBackground}">
+    <Grid Margin="5" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <ComboBox ItemsSource="{Binding Lessons}" SelectedItem="{Binding SelectedLesson}"
+                      Margin="5"
+                      Style="{StaticResource NormalComboBox}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock Text="Название предмета"
+                       Style="{StaticResource NormalText_Center}"/>
+                <TextBox DataContext="{Binding SelectedLesson}"
+                     Text="{Binding Title}"
+                     Style="{StaticResource NormalTextBox}"
+                         IsEnabled="{Binding LessonsButtonEnabled}"/>
+                <Button Content="Начать просмотр"
+                        Style="{StaticResource Button}"
+                        Command="{Binding Start}"
+                        IsEnabled="{Binding VideoButtonsEnabled}"/>
+                <Button Content="Добавить предмет"
+                        Style="{StaticResource Button}"
+                        Command="{Binding AddLesson}"/>
+                <Button Content="Удалить предмет"
+                        Style="{StaticResource RedButton}"
+                        Command="{Binding RemoveLesson}"
+                        IsEnabled="{Binding LessonsButtonEnabled}"/>
+            </StackPanel>
+            <Button Content="Назад"
+                    Style="{StaticResource Button}"
+                    Grid.Row="1"
+                    Command="{Binding Cancel}"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Добавить видео"
+                        Style="{StaticResource Button}"
+                        Grid.Column="0"
+                        Command="{Binding AddVideo}"
+                        IsEnabled="{Binding LessonsButtonEnabled}"/>
+                <Button Content="Удалить видео"
+                        Style="{StaticResource RedButton}"
+                        Grid.Column="1"
+                        Command="{Binding RemoveVideo}"
+                        IsEnabled="{Binding VideoButtonsEnabled}"/>
+            </Grid>
+            <ListView ItemsSource="{Binding SelectedLesson.Videos.Keys}" SelectedItem="{Binding SelectedVideo.Key}" Grid.Row="1">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Название"
+                                        DisplayMemberBinding="{Binding Title}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</UserControl>
