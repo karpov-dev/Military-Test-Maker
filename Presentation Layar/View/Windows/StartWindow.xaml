@@ -60,6 +60,10 @@
             <pageView:LearningPage/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type page:VideoPlayerVM}">
+            <pageView:VideoPlayer/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Grid>

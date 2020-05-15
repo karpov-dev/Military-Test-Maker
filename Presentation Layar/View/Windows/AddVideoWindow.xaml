@@ -1,0 +1,54 @@
+﻿<Window x:Class="Presentation_Layar.View.Windows.AddVideoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Presentation_Layar.View.Windows"
+        xmlns:cmp="clr-namespace:Presentation_Layar.View.Components"
+        mc:Ignorable="d"
+        Title="Редактор ресурсов" Height="250" Width="400"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource ApplicationBackground}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Text="Название видеоролика"
+                       Style="{StaticResource NormalText_Center}"/>
+            <TextBox Text="{Binding VideoTitle}"
+                     Style="{StaticResource NormalTextBox}"/>
+            <TextBlock Text="Путь у файлу"
+                       Style="{StaticResource NormalText_Center}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding VideoPath}"
+                         Style="{StaticResource NormalTextBox}"/>
+                <Button Content="Add"
+                        Grid.Column="1"
+                        Margin="0, 5, 5, 5"
+                        Command="{Binding AddPath}"/>
+            </Grid>
+            <cmp:ErrorMessage DataContext="{Binding Error}"/>
+            <cmp:InfoMessage DataContext="{Binding Info}"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Назад"
+                    Style="{StaticResource Button}"
+                    Command="{Binding Cancel}"
+                    IsEnabled="{Binding ButtonsEnabled}"/>
+            <Button Content="Добавить"
+                    Style="{StaticResource Button}"
+                    Grid.Column="1"
+                    Command="{Binding Save}"
+                    IsEnabled="{Binding ButtonsEnabled}"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -42,6 +42,8 @@ namespace Service_Layar
         public List<Lesson> GetLessons() => _lessonDAO.GetLessons();
         public bool InsertLesson(Lesson lesson) => _lessonDAO.Insert(lesson);
         public bool RemoveLesson(Lesson lesson) => _lessonDAO.Remove(lesson);
+        public bool InsertLessonVideo(Lesson lesson, string title, string path) => _lessonDAO.InsertVideo(lesson, title, path);
+        public bool RemoveLessonVideo(Lesson lesson, LessonVideo lessonVideo) => _lessonDAO.RemoveVideo(lesson, lessonVideo);
         #endregion
     }
 }

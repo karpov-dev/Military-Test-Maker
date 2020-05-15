@@ -2,6 +2,7 @@
 using Presentation_Layar.Service;
 using Presentation_Layar.View.Windows;
 using Presentation_Layar.ViewModel.BaseNavigation;
+using Presentation_Layar.ViewModel.Components;
 using Presentation_Layar.ViewModel.Windows;
 using Service_Layar;
 using System;
@@ -19,12 +20,15 @@ namespace Presentation_Layar.ViewModel.Pages
 
         public LearningPageVM(RootVM root, object owner) : base(root, owner)
         {
+            Error = new ErrorMessageVM();
+            Info = new InfoMessageVM();
             SetDefaultSelectedLesson();
         }
 
         #region Properties
         public ObservableCollection<Lesson> Lessons => new ObservableCollection<Lesson>(dataService.GetLessons());
-        //public ObservableCollection<string> Videos => new ObservableCollection<string>(SelectedLesson.Videos);
+        public ErrorMessageVM Error { get; set; }
+        public InfoMessageVM Info { get; set; }
 
         private Lesson _selectedLesson;
         public Lesson SelectedLesson
@@ -38,8 +42,8 @@ namespace Presentation_Layar.ViewModel.Pages
             }
         }
 
-        private string _selectedVideo;
-        public string SelectedVideo
+        private LessonVideo _selectedVideo;
+        public LessonVideo SelectedVideo
         {
             get => _selectedVideo;
             set
@@ -72,7 +76,7 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _start;
         public RelayCommand Start => _start ?? ( _start = new RelayCommand(obj =>
         {
-            
+            Root.CurrentVM = new VideoPlayerVM(Root, this, SelectedVideo);
         }));
 
         private RelayCommand _addLesson;
@@ -103,13 +107,21 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _addVideo;
         public RelayCommand AddVideo => _addVideo ?? ( _addVideo = new RelayCommand(obj =>
         {
+            if ( SelectedLesson == null ) return;
 
+            AddVideoWindow addVideoWindow = new AddVideoWindow();
+            addVideoWindow.DataContext = new AddVideoWindowVM(addVideoWindow, SelectedLesson);
+            addVideoWindow.Closed += AddLessonWindow_Closed;
+            addVideoWindow.Show();
         }));
 
         private RelayCommand _removeVideo;
         public RelayCommand RemoveVideo => _removeVideo ?? ( _removeVideo = new RelayCommand(obj =>
         {
+            if ( SelectedVideo == null ) return;
 
+            dataService.RemoveLessonVideo(SelectedLesson, SelectedVideo);
+            UpdateComponent();
         }));
         #endregion
 
@@ -124,6 +136,32 @@ namespace Presentation_Layar.ViewModel.Pages
             OnPropertyChanged("SelectedLesson");
             OnPropertyChanged("SelectedVideo");
             OnPropertyChanged("Lessons");
+
+            #region НЕ ОТКРЫВАТЬ 
+            #region Я предупредил
+            #region ОСТАНОВИСЬ ГЛУПЕЦ
+            #region Ну ладно, ты упорный...
+            #region 3
+            #region 2
+            #region 1
+            #region 0
+            #region -1
+            //Вашему вниманию - костыль собственной персоны
+            Lesson сrutch = SelectedLesson;
+            SelectedLesson = null;
+            SelectedLesson = сrutch;
+            #endregion
+            #endregion
+            #endregion
+            #endregion
+            #endregion
+            #endregion
+            #endregion
+            #endregion
+            #endregion
+
+            Info.Hide();
+            Error.Hide();
         }
         private void SetDefaultSelectedLesson()
         {

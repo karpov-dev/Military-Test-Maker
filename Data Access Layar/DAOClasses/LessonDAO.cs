@@ -27,5 +27,23 @@ namespace Data_Access_Layar.DAOClasses
             dataBase.Lessons.Remove(lesson);
             return true;
         }
+        public bool InsertVideo(Lesson lesson, string title, string path)
+        {
+            if ( string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(path) || lesson == null) return false;
+
+            lesson.Videos.Add(new LessonVideo()
+            {
+                Title = title,
+                Path = path
+            });
+            return true;
+        }
+        public bool RemoveVideo(Lesson lesson, LessonVideo lessonVideo)
+        {
+            if ( lesson == null || lessonVideo == null ) return false;
+
+            lesson.Videos.Remove(lessonVideo);
+            return true;
+        }
     }
 }

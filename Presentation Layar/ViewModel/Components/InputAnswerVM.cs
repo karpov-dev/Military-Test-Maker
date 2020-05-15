@@ -76,7 +76,7 @@ namespace Presentation_Layar.ViewModel.Components
                 ( _addImageCommand = new RelayCommand(obj =>
                 {
                     Text = FileWorker.OpenFileAndGetPath();
-                    if ( string.IsNullOrWhiteSpace(Text) ) ErrorCMP.Show("Возникла ошибка при добавлении файла");
+                    if ( string.IsNullOrWhiteSpace(Text) ) ErrorCMP.Show("Файл не добавлен");
                     if ( FileWorker.FileExists(Text) ) FileWorker.RemoveToRoot(Text);
                 }) );
         }
