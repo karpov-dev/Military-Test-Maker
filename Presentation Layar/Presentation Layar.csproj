@@ -13,6 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <COMReference Include="WMPLib.dll">
+      <Guid>6bf52a50-394a-11d3-b153-00c04f79faa6</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Syncfusion.Pdf.Wpf" Version="18.1.0.48" />
     <PackageReference Include="Syncfusion.SfGrid.WPF" Version="18.1.0.48" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
@@ -22,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Data Layer\Data Layer.csproj" />
     <ProjectReference Include="..\Service Layar\Service Layar.csproj" />
+    <ProjectReference Include="..\Wpf-MediaPlayer\WpfMediaPlayer\WpfMediaPlayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

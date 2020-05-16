@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using WpfMediaPlayer;
 
 namespace Presentation_Layar.ViewModel.Pages
 {
@@ -76,8 +77,16 @@ namespace Presentation_Layar.ViewModel.Pages
         private RelayCommand _start;
         public RelayCommand Start => _start ?? ( _start = new RelayCommand(obj =>
         {
-            Root.CurrentVM = new VideoPlayerVM(Root, this, SelectedVideo);
+            if(SelectedVideo == null )
+            {
+                Error.Show("Выберите видео для воспроизведения");
+                return;
+            }
+            Player player = new Player();
+            player.SetMediaSource(SelectedVideo.Path);
+            player.Show();
         }));
+        
 
         private RelayCommand _addLesson;
         public RelayCommand AddLesson => _addLesson ?? ( _addLesson = new RelayCommand(obj =>
